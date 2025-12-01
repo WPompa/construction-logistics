@@ -1,0 +1,10 @@
+import "./css/error.css";
+const Error = () => {
+  return (
+    <section className="not-found">
+      <h2>Error: Page Does Not Exist!</h2>
+    </section>
+  );
+};
+
+export default Error;

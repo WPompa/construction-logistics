@@ -1,0 +1,186 @@
+/* ----- Dashboard -----*/
+
+.dashboard-item {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+  background: #272727;
+  margin: 0.75rem auto;
+  padding: 0.25rem;
+}
+
+.dashboard-input-container {
+  display: block;
+  width: 50rem;
+  min-height: 5rem;
+  padding: 0 0.25rem;
+}
+
+.dashboard-form-info {
+  font-size: smaller;
+  display: block;
+  text-align: left;
+  width: fit-content;
+  padding: 0 0.125rem;
+  margin: 0.125rem auto;
+}
+
+.dashboard-form-info input {
+  vertical-align: bottom;
+}
+
+.dashboard-form {
+  margin: 0 auto;
+  padding: 0.125rem;
+}
+
+.dashboard-form fieldset {
+  width: 42%;
+  padding: 0.125rem;
+  margin: 0.25rem auto;
+  border: none;
+}
+
+.label-main {
+  display: block;
+  text-align: left;
+  padding: 0 0.125rem;
+  margin: 0.125rem auto;
+  margin-left: 0;
+}
+
+.dashboard-form label input {
+  margin: 0 0.25rem;
+}
+
+.label-checkbox {
+  display: inline;
+}
+
+.dashboard-btn-container {
+  display: block;
+  box-sizing: border-box;
+  width: 90%;
+  min-height: 5rem;
+  margin: 0 auto;
+  padding: 0.25rem;
+}
+
+.dashboard-btn {
+  display: inline-block;
+  height: 3rem;
+  width: 5.5rem;
+  margin: 0.5rem 0.5rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.125rem;
+  color: aliceblue;
+  transition: all 200ms;
+}
+
+.dashboard-btn:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.dashboard-btn:active {
+  transform: scale(1);
+}
+
+.add-btn {
+  background: linear-gradient(to bottom, #228b22, #228b2282);
+}
+.add-btn:hover {
+  border-color: lightgreen;
+  box-shadow: 0 0 0.25rem 0.125rem #32cd32;
+}
+
+.delete-btn {
+  background: linear-gradient(to bottom, darkred, rgba(139, 0, 0, 0.516));
+}
+.delete-btn:hover {
+  border-color: red;
+  box-shadow: 0 0 0.25rem 0.125rem #ff6347;
+}
+
+.change-btn {
+  background: linear-gradient(
+    to bottom,
+    darkslategray,
+    rgba(47, 79, 79, 0.489)
+  );
+}
+.change-btn:hover {
+  border-color: darkgray;
+  box-shadow: 0 0 0.25rem 0.125rem darkgray;
+}
+
+.dashboard-data-container {
+  display: block;
+  width: 50rem;
+  height: 400px;
+  padding: 4px;
+  overflow: auto;
+  background-image: linear-gradient(
+    to bottom,
+
+    blue,
+    indigo
+  );
+  border: 0.25rem solid #272727;
+}
+
+.dashboard-data-container table {
+  margin: 0.125rem auto;
+  border-collapse: collapse;
+  background-color: rgb(0, 94, 255);
+  box-shadow: 0 0 0.25rem 0.25rem rgba(0, 0, 0, 0.45);
+}
+
+.dashboard-data-container td,
+th {
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.dashboard-data-container th {
+  font-size: 1.125rem;
+}
+
+.table-item:hover {
+  cursor: pointer;
+  background-color: rgb(160, 160, 0);
+}
+
+@keyframes flipflop {
+  0% {
+    background-color: rgb(160, 160, 0);
+  }
+  60% {
+    background-color: rgb(0, 94, 255);
+  }
+  100% {
+    background-color: rgb(160, 160, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-data-container table {
+    animation: flipflo infinite 3s ease-in;
+  }
+}
+
+.select-table-container select {
+  border: 2px solid gray;
+  width: 150px;
+  text-align: center;
+  font-size: 20px;
+  margin: 4px;
+}
+
+.select-table-container label {
+  font-size: 20px;
+}

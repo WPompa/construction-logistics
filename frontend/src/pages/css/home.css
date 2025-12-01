@@ -1,0 +1,17 @@
+/* ----- Home -----*/
+.home {
+  width: 69rem;
+  margin: 0 auto;
+}
+
+.homepage-svg {
+  width: 8rem;
+  height: 8rem;
+}
+
+.img-container {
+  width: 25rem;
+  height: 10rem;
+  margin: 5rem auto;
+  background-color: rgb(62, 0, 62);
+}
