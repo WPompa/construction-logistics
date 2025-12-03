@@ -1,6 +1,6 @@
 /* ----- Login -----*/
 .logo {
-  padding: 5px;
+  padding: 0.25rem;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -28,7 +28,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0a0a23;
+  background-color: var(--alt-color2);
   width: 8rem;
   height: 8rem;
   margin: 0.5rem auto;
@@ -48,7 +48,7 @@
   min-height: 19rem;
   margin: 2rem auto;
   padding: 0.5rem 0 3rem;
-  background-color: #272727;
+  background-color: var(--secondary-bgColor);
 }
 
 .login-form h2 {
@@ -63,7 +63,7 @@
 }
 
 .form-input {
-  margin: 4px 0 8px 0;
-  width: calc(100% - 50px);
+  margin: 0.25rem 0 0.5rem 0;
+  width: calc(100% - 3rem);
   box-sizing: border-box;
 }

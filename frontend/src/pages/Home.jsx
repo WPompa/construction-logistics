@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <div className="home">
       <h1>Homepage</h1>
+
       <p>UNDER CONSTRUCTION</p>
       <div className="homepage-svgs">
         <img

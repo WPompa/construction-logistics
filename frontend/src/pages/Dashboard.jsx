@@ -8,7 +8,6 @@ import "./css/dashboard.css";
 export const DashboardContext = React.createContext();
 
 const Dashboard = () => {
-  //Change state to track which table to render so on rerenders you don't reselect each time.
   const [data, setData] = useState([]);
   const [tableUrl, setTableUrl] = useState("");
   const [reload, setReload] = useState(false);
@@ -16,10 +15,8 @@ const Dashboard = () => {
 
   const params = new URLSearchParams();
 
-  /*const {url1, url2, url3} = urlObjFromJsonFile; Example for the future. */
-  const tableNamesUrl = "http://localhost:8081/tableNames";
-  let url = "http://localhost:8081/api/v1/tables?";
-  const httpURL = "http://localhost:8081/api/v1/";
+  let url = import.meta.env.VITE_TABLE_QUERY_URL;
+  const httpURL = import.meta.env.VITE_HTTP_URL;
 
   /////////////////////////////////////////////
   const dbTableNames = {
@@ -31,13 +28,12 @@ const Dashboard = () => {
     // "Activity Log": "activity_log",
   };
   /////////////////////////////////////////////
-  //Am I using this correctly for reloading the data after the initial render?
+
   useEffect(() => {
     if (tableUrl) {
       getData();
       console.log("getData()");
     } else {
-      //remove else later
       console.log("No URL for getData()");
     }
   }, [tableUrl, reload]);
@@ -59,9 +55,12 @@ const Dashboard = () => {
       params.set("table", e.target.value);
       newUrl = url + params;
     }
-    tableUrl === newUrl ? {} : setTableUrl(newUrl); //Do I need {} for doing nothing?
+    tableUrl !== newUrl ? setTableUrl(newUrl) : {}; //Better approach would be to use if(), but this was just for my own curiosity.
   };
-  //Probably need to rewrite for clarity.
+
+  /* Probably need to rewrite for clarity. If data is being added, changed, or deleted and the table 
+  that data belongs to is the active table in RenderData then the table will be reloaded with the new 
+  data. */
   const reloadDataContainer = (table) => {
     //...url.../get?table=`someTableName`
     const dataContainerDropdownValue = tableUrl.substring(
@@ -77,9 +76,9 @@ const Dashboard = () => {
   //Am I missing more info for the headers or something else?
   //Could probably place each method type within relevant sub-components (i.e <postForms />).
 
-  const postMethod = (table, postBody) => {
+  const postMethod = (postBody, table) => {
     console.log("post()");
-    console.log(JSON.stringify({ postBody, table })); //table: table
+    console.log(JSON.stringify({ postBody, table }));
 
     fetch(httpURL, {
       method: "POST",
@@ -91,10 +90,13 @@ const Dashboard = () => {
         reloadDataContainer(table);
         return console.log(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert("Error! Check console for more info.");
+        return console.log(err);
+      });
   };
 
-  const deleteMethod = (table, deleteBody) => {
+  const deleteMethod = (deleteBody, table) => {
     console.log("delete()");
     console.log(deleteBody);
 
@@ -108,10 +110,13 @@ const Dashboard = () => {
         reloadDataContainer(table);
         return console.log(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert("Error! Check console for more info.");
+        return console.log(err);
+      });
   };
 
-  const putMethod = (table, putBody, useEmpty) => {
+  const putMethod = (putBody, table, useEmpty) => {
     console.log("put()");
     console.log(JSON.stringify({ putBody, table, useEmpty }));
 
@@ -125,7 +130,10 @@ const Dashboard = () => {
         reloadDataContainer(table);
         return console.log(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert("Error! Check console for more info.");
+        return console.log(err);
+      });
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -197,12 +205,13 @@ const Dashboard = () => {
           <label htmlFor="tables">Select a Table: </label>
           <select name="tables" id="tables" onChange={changeUrl}>
             <option value="">None</option>
-            {Object.keys(dbTableNames).map((tableName, index) => (
-              <option key={tableName + index} value={dbTableNames[tableName]}>
+            {Object.keys(dbTableNames).map((tableName) => (
+              <option key={tableName} value={dbTableNames[tableName]}>
                 {tableName}
               </option>
             ))}
           </select>
+
           <button
             type="button"
             onClick={() =>

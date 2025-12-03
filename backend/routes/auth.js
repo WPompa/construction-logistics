@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.post("/", (req, res) => {
   const { username, password } = req.body.login;
-  const values = [{ username }, { password }];
+  const values = [{ username }, { password }]; // username : username123 for WHERE "username" = "username123"?
   const sqlQuery = `SELECT username, password FROM credentials WHERE ? AND ?`;
   console.log(values);
 

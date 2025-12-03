@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; //Why am using this instead of navigate?
+import { useNavigate } from "react-router-dom";
 import cog from "../assets/cog.svg";
 import "./css/login.css";
 
 const Login = ({ setUser }) => {
   const [login, setLogin] = useState({ username: "", password: "" });
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_LOGIN_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:8081/login";
+
     //The below works as a simple login validation. Turned off for testing.
-    // if (!login.username || !login.password) return;
+    /* if (!login.username || !login.password) {
+      alert("Please fill out username and password.");
+      return;
+    } */
+
     /*Need another check here that compares to a hardcoded
     Admin login or compares to the logins in the database
     before setting the user below*/
@@ -32,19 +37,15 @@ const Login = ({ setUser }) => {
 
     /* setUser(login);
     navigate("/Dashboard"); */
-    alert("Disabled Temporarily");
+    alert("Disabled Temporarily. Use Bypass.");
   };
 
   const handleChange = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
+    const { id, value } = e.target;
 
     setLogin({ ...login, [id]: value });
   };
 
-  /*
-  Maybe a useEffect to check if the login credetials match an admin acc? returns boolean from server.
-  */
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2>Login</h2>
@@ -75,12 +76,13 @@ const Login = ({ setUser }) => {
         />
       </label>
 
-      <button type="submit" className="btn btn-block">
+      <button type="submit" className="btn">
         Login
       </button>
+
       <button
         type="button"
-        className="btn btn-block"
+        className="btn"
         onClick={() => {
           setUser({ username: "Guest" });
           navigate("/Dashboard");
