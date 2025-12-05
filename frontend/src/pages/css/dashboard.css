@@ -115,11 +115,15 @@
   box-shadow: 0 0 0.25rem 0.125rem darkgray;
 }
 
+.page-btn {
+  display: inline-block;
+}
+
 .dashboard-data-container {
   display: block;
   width: 50rem;
   height: 25rem;
-  padding: 0.25rem;
+  padding: 0;
   overflow: auto;
   background-image: linear-gradient(to bottom, blue, indigo);
   border: 0.25rem solid var(--secondary-bgColor);

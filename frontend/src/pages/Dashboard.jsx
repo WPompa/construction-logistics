@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import RenderData from "../components/dashboard-components/RenderData";
+import React, { useState, useEffect, useRef } from "react";
+import DisplayData from "../components/dashboard-components/DisplayData";
 import PostForms from "../components/dashboard-components/PostForms";
 import PutForms from "../components/dashboard-components/PutForms";
 import DeleteForms from "../components/dashboard-components/DeleteForms";
@@ -12,11 +12,17 @@ const Dashboard = () => {
   const [tableUrl, setTableUrl] = useState("");
   const [reload, setReload] = useState(false);
   const [methodOption, setMethodOption] = useState("");
+  let backgroundDivRef = useRef(false);
+  let table = useRef("");
+  let limit = useRef(10);
+  let page = useRef(1);
 
   const params = new URLSearchParams();
 
-  let url = import.meta.env.VITE_TABLE_QUERY_URL;
-  const httpURL = import.meta.env.VITE_HTTP_URL;
+  let url = new URL(import.meta.env.VITE_TABLE_QUERY_URL);
+  const httpURL = new URL(import.meta.env.VITE_HTTP_URL);
+
+  console.log(url);
 
   /////////////////////////////////////////////
   const dbTableNames = {
@@ -51,15 +57,21 @@ const Dashboard = () => {
   const changeUrl = (e) => {
     let newUrl = "";
 
-    if (e.target.value) {
+    console.log(params);
+    if (e?.target.value) {
+      backgroundDivRef.current = true;
+      params.set("limit", limit.current);
+      params.set("page", page.current);
       params.set("table", e.target.value);
       newUrl = url + params;
+    } else {
+      backgroundDivRef.current = false;
     }
     tableUrl !== newUrl ? setTableUrl(newUrl) : {}; //Better approach would be to use if(), but this was just for my own curiosity.
   };
 
   /* Probably need to rewrite for clarity. If data is being added, changed, or deleted and the table 
-  that data belongs to is the active table in RenderData then the table will be reloaded with the new 
+  that data belongs to is the active table in DisplayData then the table will be reloaded with the new 
   data. */
   const reloadDataContainer = (table) => {
     //...url.../get?table=`someTableName`
@@ -223,13 +235,36 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-item dashboard-data-container">
-          {<RenderData tableUrl={tableUrl} data={data} />}
+          <div className={backgroundDivRef.current ? "background-div" : ""}>
+            {<DisplayData tableUrl={tableUrl} data={data} />}
+          </div>
         </div>
 
         <div className="dashboard-item dashboard-input-container">
           {displayQueryOptions()}
+
+          <button
+            className="page-btn"
+            onClick={() => {
+              page.current -= 1;
+              params.set("page", page.current);
+            }}
+          >
+            &lt;
+          </button>
+
+          <button
+            className="page-btn"
+            onClick={() => {
+              page.current += 1;
+              params.set("page", page.current);
+            }}
+          >
+            &gt;
+          </button>
         </div>
       </div>
+      <div>{page.current}</div>
     </DashboardContext.Provider>
   );
 };

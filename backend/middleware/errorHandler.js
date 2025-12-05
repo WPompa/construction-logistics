@@ -1,3 +1,4 @@
+"use strict";
 const { ErrorAPI } = require("./ErrorAPI");
 
 const errorHandler = (err, req, res, next) => {
@@ -12,6 +13,15 @@ const errorHandler = (err, req, res, next) => {
       "Error Messages": [],
     };
     err.errors.forEach((item) => error["Error Messages"].push(item.message));
+    return res.status(400).json(error);
+  }
+
+  if (err.name === "SequelizeDatabaseError") {
+    console.log(err);
+    let error = {
+      "Error Type": err.name,
+      "Error Messages": err.original.sqlMessage,
+    };
     return res.status(400).json(error);
   }
   console.log(err);

@@ -1,6 +1,6 @@
 //Easier to import and not have too much clutter by doing this.
 //At the time being I cannot recreate the DB through the models. There is more to learn and implement.
-
+"use strict";
 const Employees = require("./employees.model");
 const Materials = require("./materials.model");
 const Stored_In = require("./stored_in.model");

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import GreetUser from "./minor-components/GreetUser";
+import CurrentUser from "./minor-components/CurrentUser";
 
 export const Navbar = () => {
   return (
@@ -10,7 +10,7 @@ export const Navbar = () => {
         <Link to="/Dashboard">Dashboard</Link>
       </div>
 
-      <GreetUser />
+      <CurrentUser />
     </nav>
   );
 };

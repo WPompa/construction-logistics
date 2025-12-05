@@ -1,3 +1,4 @@
+"use strict";
 const { sequelize: connection } = require("../database/connect");
 const { Op } = require("sequelize");
 //const connection = connectToDB();
@@ -6,16 +7,16 @@ const { Op } = require("sequelize");
 const asyncWrapper = require("../middleware/asyncWrapper");
 const { createErrorAPI } = require("../middleware/ErrorAPI");
 
-tableQueries = {
+const tableQueries = {
   employees: `SELECT empid AS "Emp ID", fname AS "First Name", lname AS "Last Name", Title, supervisorid AS "Supervisor", jobsiteid AS "Jobsite" FROM employees`,
-  material: `SELECT MaterialID as "Mat ID", Name, MaterialType as "Material Type", Length, Width, Height, SupplierName as "Supplier Name", TotalAvailable as "Total Available", LostAmounts as "Lost Amounts" from material`,
+  materials: `SELECT MaterialID as "Mat ID", Name, MaterialType as "Material Type", Length, Width, Height, SupplierName as "Supplier Name", TotalAvailable as "Total Available", LostAmounts as "Lost Amounts" from materials`,
   stored_in: `SELECT StorageAreaID AS "Storage Area", MaterialID AS "Material", Amount FROM stored_in`,
-  storage_area: `SELECT StorageAreaID AS "Storage Area ID", Length, Width, Height, Location, JobsiteID AS "Jobsite ID", TotalStored AS "Total Stored", Is_Container FROM storage_area`,
-  jobsite: `SELECT JobsiteID AS "Jobsite ID", JobsiteName AS "Jobsite Name", JobsiteSupervisorID AS "Jobsite Supervisor" FROM jobsite`,
+  storage_areas: `SELECT StorageAreaID AS "Storage Area ID", Length, Width, Height, Location, JobsiteID AS "Jobsite ID", TotalStored AS "Total Stored", Is_Container FROM storage_areas`,
+  jobsites: `SELECT JobsiteID AS "Jobsite ID", JobsiteName AS "Jobsite Name" FROM jobsites`,
   activity_log: `SELECT ActivityID AS "Activity ID", EmpID AS "Emp ID", Action, JobsiteID AS "Jobsite ID", timedone AS "Time-Stamp" FROM activity_log`,
 };
 
-let allPrimaryKeys; //becomes array of objects {tableName:TablePrimaryKeyName}
+let allPrimaryKeys = []; //becomes array of objects {tableName:TablePrimaryKeyName}, {... : ...}, ...
 const getPrimaryKeys = asyncWrapper(async () => {
   const [result] = await connection.query(
     `SELECT TABLE_NAME as "tableName", COLUMN_NAME as "primaryKey" FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "${process.env.MYSQL_DATABASE}" AND COLUMN_KEY = "PRI"`
@@ -37,17 +38,42 @@ getPrimaryKeys();
 return next(createErrorAPI(msg, 404))
 */
 
-const getTable = asyncWrapper(async (req, res) => {
+const getTable = asyncWrapper(async (req, res, next) => {
   const table = req.query.table;
+  const limit = Number(req.query.limit);
+  const page = Number(req.query.page);
+  const offset = (page - 1) * limit;
+  /* console.log(page);
+  console.log(limit);
+  console.log(offset); */
   const sqlQuery = tableQueries[table];
+
+  if (!sqlQuery) {
+    return next(createErrorAPI(`Table "${table}" is undefined`, 400));
+  }
 
   /* connection.models.employee // ...models[someVar].findAll()... would work too.
     .findAll()
     .then((result) => console.log(JSON.stringify(result, null, 2))); */
+  const result = await connection.models[table].findAll({
+    offset,
+    limit,
+  });
 
-  const [result] = await connection.query(sqlQuery);
+  /* const [result] = await connection.query(sqlQuery); */
+
+  if (!result) {
+    return next(createErrorAPI("Server Error: Unable To Get Table Data", 500));
+  }
+
+  if (result.length === 0) {
+    return res.status(200).json([{ "No Data On This Page": null }]);
+  }
+
   res.status(200).json(result);
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 const createTableRow = asyncWrapper(async (req, res, next) => {
   const { postBody, table } = req.body;
@@ -74,35 +100,7 @@ const createTableRow = asyncWrapper(async (req, res, next) => {
   res.status(201).json(result);
 });
 
-/* const createTableRow = asyncWrapper(async (req, res, next) => {
-  const table = req.body.table;
-  const postBody = req.body.postBody;
-
-  const columns = [];
-  for (let key in postBody) {
-    if (postBody[key] !== "") {
-      columns.push(key);
-    }
-  }
-  const objValues = Object.values(postBody).filter((value) => value !== "");
-
-  console.log("table: " + table);
-  console.log("postBody: ");
-  const sqlQuery = `INSERT INTO ${table} (${columns}) VALUES (?)`;
-  let values = [objValues];
-  console.log(columns);
-  console.log(values);
-  connection.query(sqlQuery, values, (err, result, fields) => {
-    if (!err) {
-      console.log("Post() good");
-      console.log(result);
-      res.status(201).json({ result });
-    } else {
-      console.log(err.message);
-      res.send(err);
-    }
-  });
-}); */
+////////////////////////////////////////////////////////////////////////////////////////////
 
 const updateTableRow = asyncWrapper(async (req, res, next) => {
   const { putBody, table, useEmpty } = req.body;
@@ -203,35 +201,7 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
   res.status(201).json("Updated rows: " + result[0]); //lookup proper status code
 });
 
-/* const updateTableRow = asyncWrapper(async (req, res) => {
-  const table = req.body.table;
-  const sqlQuery = `UPDATE ${table} SET ? WHERE ?`;
-  const fetchBody = req.body.putBody;
-  const primaryKeys = {};
-
-  //Stored_in table has composite primary keys. This checks for such tables.
-  const tablePrimaryKeys = allPrimaryKeys.filter(
-    (dbTable) => dbTable.tableName === table
-  );
-
-  tablePrimaryKeys.forEach((column) => {
-    let key = column["primaryKey"];
-    primaryKeys[key] = fetchBody[key];
-  });
-
-  const values = [fetchBody, primaryKeys];
-  console.log(primaryKeys);
-  connection.query(sqlQuery, values, (err, result, fields) => {
-    if (!err) {
-      console.log("Put() good");
-      console.log(result);
-      res.send(result);
-    } else {
-      console.log(err.message);
-      res.send(err);
-    }
-  });
-}); */
+////////////////////////////////////////////////////////////////////////////////////////////
 
 const deleteTableRow = asyncWrapper(async (req, res, next) => {
   const { table, deleteBody } = req.body;
@@ -272,35 +242,5 @@ const deleteTableRow = asyncWrapper(async (req, res, next) => {
     res.status(404).json("No matching rows");
   }
 });
-
-/* const deleteTableRow = asyncWrapper(async (req, res) => {
-  const table = req.body.table;
-  const sqlQuery = `DELETE FROM ${table} WHERE ?`;
-  const fetchBody = req.body.fetchBody;
-  const primaryKeys = {};
-
-  //Stored_in table has composite primary keys. This checks for such tables.
-  const tablePrimaryKeys = allPrimaryKeys.filter(
-    (dbTable) => dbTable.tableName === table
-  );
-
-  tablePrimaryKeys.forEach((column) => {
-    let key = column["primaryKey"];
-    primaryKeys[key] = fetchBody.targetID;
-  });
-
-  const values = [primaryKeys];
-  console.log(primaryKeys);
-  connection.query(sqlQuery, primaryKeys, (err, result, fields) => {
-    if (!err) {
-      console.log("delete() good");
-      console.log(result);
-      res.send(result);
-    } else {
-      console.log(err.message);
-      res.send(err);
-    }
-  });
-}); */
 
 module.exports = { getTable, createTableRow, updateTableRow, deleteTableRow };

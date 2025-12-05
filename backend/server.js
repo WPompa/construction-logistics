@@ -1,11 +1,11 @@
-//I need to look up these packages and get an overview of how they work. Delete comment after.
+"use strict";
 const express = require("express");
 const app = express();
-app.use(express.json()); //allows req.body to be used by parsing the req data.
+app.use(express.json());
 //Look into whether I need to use express.urlencoded();
 //Look into whether I need to use express.static();
 const cors = require("cors");
-app.use(cors()); //allows cross origin domain stuff. need to learn.
+app.use(cors());
 
 require("dotenv").config();
 
@@ -39,14 +39,6 @@ async function start() {
 }
 
 start();
-/* sequelize
-  .sync()
-  .then(() => sequelize.authenticate())
-  .then(() =>
-    app.listen(8081, () => {
-      console.log("Server listening...");
-    })
-  )
-  .catch((err) => console.log(err)); */
+
 console.log("models: ");
 console.log(sequelize.models);

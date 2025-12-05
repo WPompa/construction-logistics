@@ -1,6 +1,6 @@
 //
 
-const RenderData = ({ tableUrl, data }) => {
+const DisplayData = ({ tableUrl, data }) => {
   //Could probably just use Object.keys()
   const columnNames = () => {
     if (data.length === 0) {
@@ -62,4 +62,4 @@ const RenderData = ({ tableUrl, data }) => {
   );
 };
 
-export default RenderData;
+export default DisplayData;
