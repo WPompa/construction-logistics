@@ -20,7 +20,9 @@ const Employee = sequelize.define(
           msg: "Must have 2 - 32 characters.",
           args: [1, 33], //Assuming exclusive.
         },
-        isAlpha: true,
+        isAlpha: {
+          msg: "First Name can only use alphabet characters",
+        },
       },
     },
     Lname: {
@@ -32,7 +34,7 @@ const Employee = sequelize.define(
           args: [1, 33], //Assuming exclusive.
         },
         isAlpha: {
-          msg: "Last Name cannot contain numbers",
+          msg: "Last Name can only use alphabet characters",
         },
       },
     },

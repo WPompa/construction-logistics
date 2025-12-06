@@ -141,3 +141,7 @@ footer {
   background: rgba(0, 0, 0, 0.5);
   overflow: scroll;
 }
+
+.abc {
+  display: none;
+}

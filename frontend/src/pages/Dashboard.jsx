@@ -4,6 +4,8 @@ import PostForms from "../components/dashboard-components/PostForms";
 import PutForms from "../components/dashboard-components/PutForms";
 import DeleteForms from "../components/dashboard-components/DeleteForms";
 import "./css/dashboard.css";
+import CurrentPage from "../components/minor-components/CurrentPage";
+import CurrentLimit from "../components/minor-components/CurrentLimit";
 
 export const DashboardContext = React.createContext();
 
@@ -14,15 +16,16 @@ const Dashboard = () => {
   const [methodOption, setMethodOption] = useState("");
   let backgroundDivRef = useRef(false);
   let table = useRef("");
-  let limit = useRef(10);
   let page = useRef(1);
+  let limit = useRef(10);
 
   const params = new URLSearchParams();
+  params.set("table", table.current);
+  params.set("page", page.current);
+  params.set("limit", limit.current);
 
-  let url = new URL(import.meta.env.VITE_TABLE_QUERY_URL);
-  const httpURL = new URL(import.meta.env.VITE_HTTP_URL);
-
-  console.log(url);
+  const TABLE_DATA_URL = new URL(import.meta.env.VITE_TABLE_DATA_URL);
+  const API_URL = new URL(import.meta.env.VITE_API_URL);
 
   /////////////////////////////////////////////
   const dbTableNames = {
@@ -31,6 +34,7 @@ const Dashboard = () => {
     "Stored In": "stored_in",
     "Storage Areas": "storage_areas",
     Jobsites: "jobsites",
+    "Emp + Jobsites": "emp + jobsites",
     // "Activity Log": "activity_log",
   };
   /////////////////////////////////////////////
@@ -54,20 +58,36 @@ const Dashboard = () => {
       .catch((err) => console.log(err)); //Eventually set error or its message to a variable and modal it or similar. Handle errors.
   };
 
+  //Setting select to none does not remove rendered data from container.
   const changeUrl = (e) => {
     let newUrl = "";
 
-    console.log(params);
     if (e?.target.value) {
       backgroundDivRef.current = true;
-      params.set("limit", limit.current);
-      params.set("page", page.current);
-      params.set("table", e.target.value);
-      newUrl = url + params;
+      table.current = e.target.value;
+      params.set("table", table.current);
+      newUrl = TABLE_DATA_URL.toString() + params.toString();
     } else {
       backgroundDivRef.current = false;
     }
     tableUrl !== newUrl ? setTableUrl(newUrl) : {}; //Better approach would be to use if(), but this was just for my own curiosity.
+  };
+
+  const updateURLParams = (param, value) => {
+    params.set(param, value);
+    if (tableUrl) {
+      setTableUrl(TABLE_DATA_URL.toString() + params.toString());
+    }
+  };
+
+  const changePageValue = (value) => {
+    page.current = page.current + value;
+
+    if (page.current <= 0) {
+      page.current = 1;
+      return;
+    }
+    updateURLParams("page", page.current);
   };
 
   /* Probably need to rewrite for clarity. If data is being added, changed, or deleted and the table 
@@ -92,7 +112,7 @@ const Dashboard = () => {
     console.log("post()");
     console.log(JSON.stringify({ postBody, table }));
 
-    fetch(httpURL, {
+    fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ postBody, table }),
@@ -112,7 +132,7 @@ const Dashboard = () => {
     console.log("delete()");
     console.log(deleteBody);
 
-    fetch(httpURL, {
+    fetch(API_URL, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ deleteBody, table }),
@@ -132,7 +152,7 @@ const Dashboard = () => {
     console.log("put()");
     console.log(JSON.stringify({ putBody, table, useEmpty }));
 
-    fetch(httpURL, {
+    fetch(API_URL, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ putBody, table, useEmpty }),
@@ -152,13 +172,25 @@ const Dashboard = () => {
   function displayQueryOptions() {
     switch (methodOption) {
       case "post":
-        return <PostForms />;
+        return (
+          <div className="dashboard-form-container">
+            <PostForms />
+          </div>
+        );
 
       case "put":
-        return <PutForms />;
+        return (
+          <div className="dashboard-form-container">
+            <PutForms />
+          </div>
+        );
 
       case "delete":
-        return <DeleteForms />;
+        return (
+          <div className="dashboard-form-container">
+            <DeleteForms />
+          </div>
+        );
       default:
         return displayQueryButtons();
     }
@@ -213,25 +245,32 @@ const Dashboard = () => {
       }}
     >
       <div className="dashboard-container">
-        <div className="select-table-container">
-          <label htmlFor="tables">Select a Table: </label>
-          <select name="tables" id="tables" onChange={changeUrl}>
-            <option value="">None</option>
-            {Object.keys(dbTableNames).map((tableName) => (
-              <option key={tableName} value={dbTableNames[tableName]}>
-                {tableName}
-              </option>
-            ))}
-          </select>
-
+        <div className="select-container dashboard-item">
           <button
             type="button"
+            className="select-container-btn"
             onClick={() =>
               confirm("Reset options and delete user queries? (future feature)")
             }
           >
             Reset Queries
           </button>
+
+          <div className="select-table">
+            <label htmlFor="tables">Select a Table: </label>
+            <select name="tables" id="tables" onChange={changeUrl}>
+              <option value="">None</option>
+              {Object.keys(dbTableNames).map((tableName) => (
+                <option key={tableName} value={dbTableNames[tableName]}>
+                  {tableName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <CurrentPage value={page} function={updateURLParams} />
+
+          <CurrentLimit value={limit} function={updateURLParams} />
         </div>
 
         <div className="dashboard-item dashboard-data-container">
@@ -241,30 +280,27 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-item dashboard-input-container">
-          {displayQueryOptions()}
-
           <button
             className="page-btn"
             onClick={() => {
-              page.current -= 1;
-              params.set("page", page.current);
+              changePageValue(-1);
             }}
           >
             &lt;
           </button>
 
+          {displayQueryOptions()}
+
           <button
             className="page-btn"
             onClick={() => {
-              page.current += 1;
-              params.set("page", page.current);
+              changePageValue(1);
             }}
           >
             &gt;
           </button>
         </div>
       </div>
-      <div>{page.current}</div>
     </DashboardContext.Provider>
   );
 };

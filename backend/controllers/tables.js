@@ -14,6 +14,8 @@ const tableQueries = {
   storage_areas: `SELECT StorageAreaID AS "Storage Area ID", Length, Width, Height, Location, JobsiteID AS "Jobsite ID", TotalStored AS "Total Stored", Is_Container FROM storage_areas`,
   jobsites: `SELECT JobsiteID AS "Jobsite ID", JobsiteName AS "Jobsite Name" FROM jobsites`,
   activity_log: `SELECT ActivityID AS "Activity ID", EmpID AS "Emp ID", Action, JobsiteID AS "Jobsite ID", timedone AS "Time-Stamp" FROM activity_log`,
+  "emp + jobsites":
+    "select employees.empid, employees.fname, employees.lname, employees.title, employees.supervisorid, jobsites.jobsitename from employees left join jobsites on employees.jobsiteid = jobsites.jobsiteid;",
 };
 
 let allPrimaryKeys = []; //becomes array of objects {tableName:TablePrimaryKeyName}, {... : ...}, ...
@@ -43,13 +45,15 @@ const getTable = asyncWrapper(async (req, res, next) => {
   const limit = Number(req.query.limit);
   const page = Number(req.query.page);
   const offset = (page - 1) * limit;
-  /* console.log(page);
-  console.log(limit);
-  console.log(offset); */
-  const sqlQuery = tableQueries[table];
 
+  //The following 4 lines are only temporary. They're good for checking if a table exists. Remove later.
+  const sqlQuery = tableQueries[table];
   if (!sqlQuery) {
     return next(createErrorAPI(`Table "${table}" is undefined`, 400));
+  }
+  if (table === "emp + jobsites") {
+    const [result] = await connection.query(sqlQuery);
+    return res.status(200).json(result);
   }
 
   /* connection.models.employee // ...models[someVar].findAll()... would work too.
@@ -67,7 +71,9 @@ const getTable = asyncWrapper(async (req, res, next) => {
   }
 
   if (result.length === 0) {
-    return res.status(200).json([{ "No Data On This Page": null }]);
+    return res
+      .status(200)
+      .json([{ "No Data On This Page": "Try A Previous Page" }]);
   }
 
   res.status(200).json(result);
@@ -89,6 +95,7 @@ const createTableRow = asyncWrapper(async (req, res, next) => {
         postBody[key].slice(1).toLowerCase();
     } */
   }
+
   const result = await connection.models[table].create(postBody); //{fields: []} to exclude injected key-values.
 
   if (!result) {
@@ -147,6 +154,7 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
 
     delete putBody[key];
   });
+
   if (isMissingPKValue) {
     return;
   }

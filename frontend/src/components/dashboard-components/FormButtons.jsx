@@ -28,8 +28,8 @@ function FormButtons({
         onClick={(e) => {
           e.preventDefault();
           useEmpty
-            ? httpMethod(chosenTable, httpBody, useEmpty)
-            : httpMethod(chosenTable, httpBody);
+            ? httpMethod(httpBody, chosenTable, useEmpty)
+            : httpMethod(httpBody, chosenTable);
           setHTTPBody({});
         }}
       >
