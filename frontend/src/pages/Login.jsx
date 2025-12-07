@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { UserContext } from "../App";
 import cog from "../assets/cog.svg";
 import "./css/login.css";
 
@@ -7,6 +8,7 @@ const Login = ({ setUser }) => {
   const [login, setLogin] = useState({ username: "", password: "" });
   const navigate = useNavigate();
   const url = import.meta.env.VITE_LOGIN_URL;
+  const user = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,9 +48,12 @@ const Login = ({ setUser }) => {
     setLogin({ ...login, [id]: value });
   };
 
+  if (user?.username) {
+    return <Navigate to="/Dashboard" />;
+  }
   return (
     <form className="login-form" onSubmit={handleSubmit}>
-      <h2>Login</h2>
+      <h2>LOGIN</h2>
 
       <div className="login-image">
         <img src={cog} alt="cog" className="logo" />

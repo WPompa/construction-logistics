@@ -6,6 +6,7 @@ import DeleteForms from "../components/dashboard-components/DeleteForms";
 import "./css/dashboard.css";
 import CurrentPage from "../components/minor-components/CurrentPage";
 import CurrentLimit from "../components/minor-components/CurrentLimit";
+import ErrorModal from "../components/minor-components/ErrorModal";
 
 export const DashboardContext = React.createContext();
 
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [tableUrl, setTableUrl] = useState("");
   const [reload, setReload] = useState(false);
   const [methodOption, setMethodOption] = useState("");
+  const [showModal, setShowModal] = useState(false);
   let backgroundDivRef = useRef(false);
   let table = useRef("");
   let page = useRef(1);
@@ -34,7 +36,9 @@ const Dashboard = () => {
     "Stored In": "stored_in",
     "Storage Areas": "storage_areas",
     Jobsites: "jobsites",
+    Leadership: "leadership",
     "Emp + Jobsites": "emp + jobsites",
+    "Mat. Amounts": "mat. amounts",
     // "Activity Log": "activity_log",
   };
   /////////////////////////////////////////////
@@ -55,7 +59,10 @@ const Dashboard = () => {
         setData(data);
         console.log(data); //remove later.
       })
-      .catch((err) => console.log(err)); //Eventually set error or its message to a variable and modal it or similar. Handle errors.
+      .catch((err) => {
+        setShowModal(true);
+        return console.log(err);
+      }); //Eventually set error or its message to a variable and modal it or similar. Handle errors.
   };
 
   //Setting select to none does not remove rendered data from container.
@@ -123,7 +130,7 @@ const Dashboard = () => {
         return console.log(data);
       })
       .catch((err) => {
-        alert("Error! Check console for more info.");
+        setShowModal(true);
         return console.log(err);
       });
   };
@@ -143,7 +150,7 @@ const Dashboard = () => {
         return console.log(data);
       })
       .catch((err) => {
-        alert("Error! Check console for more info.");
+        setShowModal(true);
         return console.log(err);
       });
   };
@@ -163,7 +170,7 @@ const Dashboard = () => {
         return console.log(data);
       })
       .catch((err) => {
-        alert("Error! Check console for more info.");
+        setShowModal(true);
         return console.log(err);
       });
   };
@@ -245,6 +252,7 @@ const Dashboard = () => {
       }}
     >
       <div className="dashboard-container">
+        {showModal && <ErrorModal setShowModal={setShowModal} />}
         <div className="select-container dashboard-item">
           <button
             type="button"

@@ -1,4 +1,5 @@
-//
+import "./css/current-page.css";
+
 const CurrentPage = (props) => {
   const handlechange = (e) => {
     props.value.current = Number(e.target.value);
@@ -17,7 +18,7 @@ const CurrentPage = (props) => {
         name="CurrentPage"
         id="CurrentPage"
         min={1}
-        placeholder={1}
+        placeholder={props.value.current}
         onChange={handlechange}
       />
     </div>

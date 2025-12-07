@@ -1,0 +1,12 @@
+.currentUser {
+  display: inline-block;
+  font-size: larger;
+  padding: 0.5rem 0.5rem;
+  margin-left: 40%;
+  margin-right: 5%;
+}
+
+.logout-btn {
+  font-size: 0.85rem;
+  margin: 0.25rem 0.5rem;
+}

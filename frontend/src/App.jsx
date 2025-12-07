@@ -13,7 +13,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SharedLayout />}>

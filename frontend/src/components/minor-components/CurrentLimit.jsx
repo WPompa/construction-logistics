@@ -1,4 +1,5 @@
-//
+import "./css/current-limit.css";
+
 const CurrentLimit = (props) => {
   const handleChange = (e) => {
     props.value.current = Number(e.target.value);

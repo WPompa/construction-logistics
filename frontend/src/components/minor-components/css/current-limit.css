@@ -1,0 +1,13 @@
+.select-current-limit {
+  display: inline-block;
+  width: 12%;
+  margin-right: 0.5rem;
+}
+
+.select-current-limit label {
+  font-size: 0.75rem;
+}
+
+.select-current-limit input {
+  width: 2rem;
+}

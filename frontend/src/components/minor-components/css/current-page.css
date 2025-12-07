@@ -1,0 +1,13 @@
+.select-current-page {
+  display: inline-block;
+  width: 10%;
+  margin-left: 10%;
+}
+
+.select-current-page label {
+  font-size: 0.75rem;
+}
+
+.select-current-page input {
+  width: 2rem;
+}

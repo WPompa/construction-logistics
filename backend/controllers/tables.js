@@ -14,8 +14,27 @@ const tableQueries = {
   storage_areas: `SELECT StorageAreaID AS "Storage Area ID", Length, Width, Height, Location, JobsiteID AS "Jobsite ID", TotalStored AS "Total Stored", Is_Container FROM storage_areas`,
   jobsites: `SELECT JobsiteID AS "Jobsite ID", JobsiteName AS "Jobsite Name" FROM jobsites`,
   activity_log: `SELECT ActivityID AS "Activity ID", EmpID AS "Emp ID", Action, JobsiteID AS "Jobsite ID", timedone AS "Time-Stamp" FROM activity_log`,
-  "emp + jobsites":
-    "select employees.empid, employees.fname, employees.lname, employees.title, employees.supervisorid, jobsites.jobsitename from employees left join jobsites on employees.jobsiteid = jobsites.jobsiteid;",
+  leadership: `SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, " ", emp1.lname) AS Name, emp1.title AS Title
+FROM employees as emp1
+JOIN employees as emp2
+ON emp2.supervisorid = emp1.empid;`,
+  "emp + jobsites": `SELECT employees.empid AS EmpID, employees.fname AS FirstName, employees.lname AS LastName, employees.title AS Title,
+jobsites.jobsitename AS Jobsite
+FROM employees 
+LEFT JOIN jobsites 
+ON employees.jobsiteid = jobsites.jobsiteid;`,
+  "mat. amounts": `SELECT  materials.name AS Name, materials.suppliername AS Brand,
+storage_areas.location AS Location, 
+jobsites.jobsitename AS Jobsite, 
+stored_in.amount AS Amount
+FROM materials
+JOIN stored_in
+ON materials.materialid = stored_in.materialid
+JOIN storage_areas
+ON storage_areas.storageareaid = stored_in.storageareaid
+JOIN jobsites
+ON jobsites.jobsiteid = storage_areas.jobsiteid
+ORDER BY materials.name;`,
 };
 
 let allPrimaryKeys = []; //becomes array of objects {tableName:TablePrimaryKeyName}, {... : ...}, ...
@@ -51,7 +70,20 @@ const getTable = asyncWrapper(async (req, res, next) => {
   if (!sqlQuery) {
     return next(createErrorAPI(`Table "${table}" is undefined`, 400));
   }
+
+  if (table === "leadership") {
+    const [result] = await connection.query(sqlQuery);
+    return res.status(200).json(result);
+  }
+
+  //An if statement to catch "emp + jobsites" until I implement it with sequelize.
   if (table === "emp + jobsites") {
+    const [result] = await connection.query(sqlQuery);
+    return res.status(200).json(result);
+  }
+
+  //An if statement to catch "mat. amounts" until I implement it with sequelize.
+  if (table === "mat. amounts") {
     const [result] = await connection.query(sqlQuery);
     return res.status(200).json(result);
   }
