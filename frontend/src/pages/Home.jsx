@@ -17,31 +17,76 @@ const Home = () => {
         />
         <img src={cogs} alt="cogs" className="cogs homepage-svg" />
       </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-        rerum, commodi cumque debitis dolore ipsam dolorum cupiditate
-        exercitationem modi fugit dolores alias corporis libero ut, provident
-        distinctio quod. Sit, quaerat!
-      </p>
-      <div className="img-container">
-        <img src="null" alt="placeholder" />
-      </div>
 
-      <div className="img-container">
-        <img src="null" alt="placeholder" />
-      </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
-        magnam, atque unde porro consequatur ipsa hic? In ipsum eveniet sequi,
-        omnis libero ad tenetur, officiis magnam minima nostrum maiores aliquid.
-        Ipsum, architecto perferendis? Minus ipsam molestiae, inventore enim
-        dicta quae aspernatur at, id autem nihil laborum? Esse voluptatibus
-        accusantium dolores, quis in quam explicabo deleniti. Omnis eius aliquam
-        dolor deserunt?
-      </p>
-      <div className="img-container">
-        <img src="null" alt="placeholder" />
-      </div>
+      <section className="homepage-section">
+        <h2 className="homepage-h2">Welcome</h2>
+        <p className="homepage-p">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, eius
+          debitis? Nesciunt consequatur voluptatem veritatis. Aspernatur,
+          repellendus beatae, eligendi eum facilis dignissimos nulla possimus
+          animi, enim officia soluta recusandae amet? Fugit autem possimus in
+          perspiciatis dolores nesciunt neque, architecto facilis ipsa excepturi
+          eum quaerat amet molestiae repudiandae inventore ipsum obcaecati
+          tempora quisquam minus? Molestias consectetur in omnis quam blanditiis
+          similique!
+        </p>
+
+        <h3 className="homepage-h3">Purpose</h3>
+        <p className="homepage-p">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic
+          laudantium ipsa exercitationem, voluptatum aut ea aliquid tempora et,
+          ratione odit ipsum quaerat officia quis obcaecati ad neque modi rerum!
+          Consequuntur!
+        </p>
+
+        <h3 className="homepage-h3">Details</h3>
+        <p className="homepage-p">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic alias
+          incidunt odio earum atque sunt natus optio perspiciatis ipsa. Nostrum
+          sapiente nulla optio veritatis consequatur libero odit fugit dolorem
+          voluptates.
+        </p>
+      </section>
+
+      <section className="homepage-section">
+        <h2 className="homepage-h2">The Login Page</h2>
+        <p className="homepage-p">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et placeat
+          pariatur nihil sit quaerat sunt necessitatibus provident nobis rem
+          nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
+        </p>
+
+        <div className="img-container">
+          <img src="null" alt="placeholder" />
+        </div>
+
+        <p className="homepage-p">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
+          nihil, laboriosam omnis explicabo amet veniam saepe vero facere quidem
+          nostrum? Unde aut consequatur dicta accusantium molestiae ex libero
+          iusto.
+        </p>
+      </section>
+
+      <section className="homepage-section">
+        <h2 className="homepage-h2">The Dashboard Page</h2>
+        <p className="homepage-p">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et placeat
+          pariatur nihil sit quaerat sunt necessitatibus provident nobis rem
+          nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
+        </p>
+
+        <div className="img-container">
+          <img src="null" alt="placeholder" />
+        </div>
+
+        <p className="homepage-p">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
+          nihil, laboriosam omnis explicabo amet veniam saepe vero facere quidem
+          nostrum? Unde aut consequatur dicta accusantium molestiae ex libero
+          iusto.
+        </p>
+      </section>
     </div>
   );
 };

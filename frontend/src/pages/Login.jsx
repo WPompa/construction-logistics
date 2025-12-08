@@ -8,7 +8,7 @@ const Login = ({ setUser }) => {
   const [login, setLogin] = useState({ username: "", password: "" });
   const navigate = useNavigate();
   const url = import.meta.env.VITE_LOGIN_URL;
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
