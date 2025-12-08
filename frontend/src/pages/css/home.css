@@ -2,6 +2,10 @@
 .home {
   width: 69rem;
   margin: 0 auto;
+  --blue: #3f48cc;
+  --red: #ec1c24;
+  --green: #0eaf45;
+  --yellow: #fff200;
 }
 
 /* -----  Placeholders -----*/
@@ -16,17 +20,23 @@
 }
 
 .homepage-h2 {
+  font-weight: 700;
 }
 
 .homepage-h3 {
+  text-decoration: underline;
 }
 
 .homepage-p {
+  line-height: normal;
 }
 
 .img-container {
   width: 25rem;
-  height: 10rem;
+  max-height: 25rem;
   margin: 1rem auto;
-  background-color: rgb(62, 0, 62);
+}
+.img-container img {
+  max-width: 100%;
+  height: auto;
 }

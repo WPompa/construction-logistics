@@ -1,6 +1,8 @@
 //Needs decorations and explanation on what the project is about. Mostly filler.
+import { lazy, Suspense, useState } from "react";
 import safetyHelmet from "../assets/helmet-safety.svg";
 import cogs from "../assets/cogs.svg";
+import { login, dashboard, dashboardInput } from "../assets";
 import "./css/home.css";
 
 const Home = () => {
@@ -56,9 +58,7 @@ const Home = () => {
           nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
         </p>
 
-        <div className="img-container">
-          <img src="null" alt="placeholder" />
-        </div>
+        <ShowImage img={login} />
 
         <p className="homepage-p">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
@@ -76,9 +76,7 @@ const Home = () => {
           nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
         </p>
 
-        <div className="img-container">
-          <img src="null" alt="placeholder" />
-        </div>
+        <ShowImage img={dashboard} />
 
         <p className="homepage-p">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
@@ -86,9 +84,41 @@ const Home = () => {
           nostrum? Unde aut consequatur dicta accusantium molestiae ex libero
           iusto.
         </p>
+
+        <ShowImage img={dashboardInput} />
       </section>
     </div>
   );
+};
+
+const ShowImage = ({ img }) => {
+  const [showImage, setShowImage] = useState(false);
+
+  if (showImage) {
+    return (
+      <>
+        <div>
+          <button type="button" onClick={() => setShowImage(!showImage)}>
+            toggle
+          </button>
+        </div>
+
+        <div className="img-container">
+          <img src={img} alt="placeholder" />
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div>
+          <button type="button" onClick={() => setShowImage(!showImage)}>
+            toggle
+          </button>
+        </div>
+      </>
+    );
+  }
 };
 
 export default Home;
