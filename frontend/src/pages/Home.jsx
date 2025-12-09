@@ -1,8 +1,9 @@
 //Needs decorations and explanation on what the project is about. Mostly filler.
-import { lazy, Suspense, useState } from "react";
-import safetyHelmet from "../assets/helmet-safety.svg";
-import cogs from "../assets/cogs.svg";
+import { lazy, Suspense, Activity, useState } from "react";
+import safetyHelmet from "../assets/SVG/helmet-safety.svg";
+import cogs from "../assets/SVG/cogs.svg";
 import { login, dashboard, dashboardInput } from "../assets";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./css/home.css";
 
 const Home = () => {
@@ -104,7 +105,7 @@ const ShowImage = ({ img }) => {
         </div>
 
         <div className="img-container">
-          <img src={img} alt="placeholder" />
+          <LazyLoadImage src={img} alt="alt" />
         </div>
       </>
     );

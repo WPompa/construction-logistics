@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../App";
-import cog from "../assets/cog.svg";
+import cog from "../assets/SVG/cog.svg";
 import "./css/login.css";
 
 const Login = ({ setUser }) => {

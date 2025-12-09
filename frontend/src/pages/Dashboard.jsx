@@ -289,6 +289,7 @@ const Dashboard = () => {
 
         <div className="dashboard-item dashboard-input-container">
           <button
+            type="button"
             className="page-btn"
             onClick={() => {
               changePageValue(-1);
@@ -300,6 +301,7 @@ const Dashboard = () => {
           {displayQueryOptions()}
 
           <button
+            type="button"
             className="page-btn"
             onClick={() => {
               changePageValue(1);
