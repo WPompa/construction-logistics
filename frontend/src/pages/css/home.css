@@ -32,7 +32,7 @@
 }
 
 .img-container {
-  width: 25rem;
+  max-width: 25rem;
   max-height: 25rem;
   margin: 1rem auto;
 }

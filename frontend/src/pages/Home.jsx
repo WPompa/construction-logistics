@@ -1,9 +1,16 @@
-//Needs decorations and explanation on what the project is about. Mostly filler.
-import { lazy, Suspense, Activity, useState } from "react";
+import { useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import safetyHelmet from "../assets/SVG/helmet-safety.svg";
 import cogs from "../assets/SVG/cogs.svg";
-import { login, dashboard, dashboardInput } from "../assets";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import {
+  login,
+  loginAlt,
+  dashboard,
+  dashboardAlt,
+  dashboardInput,
+  dashboardInputAlt,
+} from "../assets";
 import "./css/home.css";
 
 const Home = () => {
@@ -59,7 +66,7 @@ const Home = () => {
           nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
         </p>
 
-        <ShowImage img={login} />
+        <ShowImage img={login} alt={loginAlt} />
 
         <p className="homepage-p">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
@@ -77,7 +84,7 @@ const Home = () => {
           nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
         </p>
 
-        <ShowImage img={dashboard} />
+        <ShowImage img={dashboard} alt={dashboardAlt} />
 
         <p className="homepage-p">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
@@ -86,40 +93,35 @@ const Home = () => {
           iusto.
         </p>
 
-        <ShowImage img={dashboardInput} />
+        <ShowImage img={dashboardInput} alt={dashboardInputAlt} />
       </section>
     </div>
   );
 };
 
-const ShowImage = ({ img }) => {
+const ShowImage = ({ img, alt }) => {
   const [showImage, setShowImage] = useState(false);
 
-  if (showImage) {
-    return (
-      <>
-        <div>
-          <button type="button" onClick={() => setShowImage(!showImage)}>
-            toggle
-          </button>
-        </div>
+  return (
+    <>
+      <div>
+        <button type="button" onClick={() => setShowImage(!showImage)}>
+          {showImage ? "Hide" : "Show"} Image
+        </button>
+      </div>
 
+      {showImage && (
         <div className="img-container">
-          <LazyLoadImage src={img} alt="alt" />
+          <LazyLoadImage
+            src={img}
+            placeholderSrc={alt}
+            alt="LQPI Alt"
+            effect="blur"
+          />
         </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div>
-          <button type="button" onClick={() => setShowImage(!showImage)}>
-            toggle
-          </button>
-        </div>
-      </>
-    );
-  }
+      )}
+    </>
+  );
 };
 
 export default Home;
