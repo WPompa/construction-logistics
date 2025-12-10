@@ -8,7 +8,6 @@
   --yellow: #fff200;
 }
 
-/* -----  Placeholders -----*/
 .homepage-svg {
   width: 8rem;
   height: 8rem;
@@ -28,7 +27,9 @@
 }
 
 .homepage-p {
+  margin: 1rem auto;
   line-height: normal;
+  width: 80%;
 }
 
 .img-container {
@@ -39,4 +40,17 @@
 .img-container img {
   max-width: 100%;
   height: auto;
+}
+
+.blue {
+  color: var(--blue);
+}
+.red {
+  color: var(--red);
+}
+.green {
+  color: var(--green);
+}
+.yellow {
+  color: var(--yellow);
 }

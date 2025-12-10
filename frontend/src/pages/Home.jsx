@@ -30,70 +30,79 @@ const Home = () => {
 
       <section className="homepage-section">
         <h2 className="homepage-h2">Welcome</h2>
-        <p className="homepage-p">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, eius
-          debitis? Nesciunt consequatur voluptatem veritatis. Aspernatur,
-          repellendus beatae, eligendi eum facilis dignissimos nulla possimus
-          animi, enim officia soluta recusandae amet? Fugit autem possimus in
-          perspiciatis dolores nesciunt neque, architecto facilis ipsa excepturi
-          eum quaerat amet molestiae repudiandae inventore ipsum obcaecati
-          tempora quisquam minus? Molestias consectetur in omnis quam blanditiis
-          similique!
-        </p>
+        <p className="homepage-p">Thank you for visiting my project!</p>
 
         <h3 className="homepage-h3">Purpose</h3>
         <p className="homepage-p">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic
-          laudantium ipsa exercitationem, voluptatum aut ea aliquid tempora et,
-          ratione odit ipsum quaerat officia quis obcaecati ad neque modi rerum!
-          Consequuntur!
+          With this project I wanted to try out different React features and as
+          an end result put together a frontend I could showcase.
         </p>
 
         <h3 className="homepage-h3">Details</h3>
         <p className="homepage-p">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic alias
-          incidunt odio earum atque sunt natus optio perspiciatis ipsa. Nostrum
-          sapiente nulla optio veritatis consequatur libero odit fugit dolorem
-          voluptates.
+          It is a frontend client that connects to a backend through API
+          endpoints. The backend end feeds the frontend with data queried from a
+          database. The client can also use the API endpoints to modify the data
+          stored on the database.
         </p>
       </section>
 
       <section className="homepage-section">
         <h2 className="homepage-h2">The Login Page</h2>
         <p className="homepage-p">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et placeat
-          pariatur nihil sit quaerat sunt necessitatibus provident nobis rem
-          nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
+          For now, there is a simple login page that is a work-in-progress for
+          more complex features like authentication and JWTs. Click "Show Image"
+          for a visual aid.
         </p>
 
         <ShowImage img={login} alt={loginAlt} />
 
         <p className="homepage-p">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
-          nihil, laboriosam omnis explicabo amet veniam saepe vero facere quidem
-          nostrum? Unde aut consequatur dicta accusantium molestiae ex libero
-          iusto.
+          Currently there is no need to input a username or password. The{" "}
+          <span className="red">Login</span> has been disabled while more
+          complex features are added behind the scenes. For now simply click on{" "}
+          <span className="green">Bypass</span> to begin interacting with the
+          app.
         </p>
       </section>
 
       <section className="homepage-section">
         <h2 className="homepage-h2">The Dashboard Page</h2>
         <p className="homepage-p">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et placeat
-          pariatur nihil sit quaerat sunt necessitatibus provident nobis rem
-          nisi incidunt at quod ut qui aperiam, deserunt iste vel veniam?
+          The main user experience. Data is retrieved by the backend and sent to
+          the dashboard. For the time being, the dashboard has a simple
+          interface that renders the data and allows additions, changes, and
+          deletions to the data stored in the database. It is very much a
+          work-in-progress with future features and modifications.
         </p>
 
         <ShowImage img={dashboard} alt={dashboardAlt} />
 
         <p className="homepage-p">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo ipsam
-          nihil, laboriosam omnis explicabo amet veniam saepe vero facere quidem
-          nostrum? Unde aut consequatur dicta accusantium molestiae ex libero
-          iusto.
+          The <span className="blue">Main Buttons</span> allow a user to add,
+          change, or delete data stored on the database. API endpoints handle
+          the changes if the user submits the required info with a respective
+          button. The reload button will fetch more current data and display any
+          new changes in a selected table. The{" "}
+          <span className="green">Page Buttons</span> on the bottom right and
+          left of the blue screen allow the user to look through pages of data.
+          The <span className="yellow">Table Selector and Page Options</span>{" "}
+          allow the user to choose what data to render, the page, and items per
+          page they would like to see. The{" "}
+          <span className="red">Reset Queries</span> button is currently
+          disabled until more functionality is introduced in the backend.
         </p>
 
         <ShowImage img={dashboardInput} alt={dashboardInputAlt} />
+
+        <p className="homepage-p">
+          The <span className="green">Input Field</span> is where the user fills
+          in at minimum the required information needed to add, change, or
+          delete date from the database. The change and delete forms allow for
+          multiple simultaneous entries separated by commas. A message will pop
+          up on the screen if there was an error during submission or while
+          requesting a table.
+        </p>
       </section>
     </div>
   );
