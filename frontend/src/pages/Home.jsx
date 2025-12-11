@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import safetyHelmet from "../assets/SVG/helmet-safety.svg";
@@ -13,7 +13,30 @@ import {
 } from "../assets";
 import "./css/home.css";
 
+const initialState = {
+  showImageOne: false,
+  showImageTwo: false,
+  showImageThree: false,
+};
+
+const reducer = (state, action) => {
+  if (action.type === "showImageOne") {
+    return { ...state, showImageOne: !state.showImageOne };
+  }
+
+  if (action.type === "showImageTwo") {
+    return { ...state, showImageTwo: !state.showImageTwo };
+  }
+
+  if (action.type === "showImageThree") {
+    return { ...state, showImageThree: !state.showImageThree };
+  }
+
+  throw Error("Unknown Action: " + action.type);
+};
+
 const Home = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="home">
       <h1>Homepage</h1>
@@ -55,14 +78,23 @@ const Home = () => {
           for a visual aid.
         </p>
 
-        <ShowImage img={login} alt={loginAlt} />
+        <ShowImage
+          img={login}
+          alt={loginAlt}
+          callback={() => dispatch({ type: "showImageOne" })}
+        />
 
         <p className="homepage-p">
           Currently there is no need to input a username or password. The{" "}
-          <span className="red">Login</span> has been disabled while more
-          complex features are added behind the scenes. For now simply click on{" "}
-          <span className="green">Bypass</span> to begin interacting with the
-          app.
+          <span className={state.showImageOne ? "red bold" : "bold"}>
+            Login
+          </span>{" "}
+          has been disabled while more complex features are added behind the
+          scenes. For now simply click on{" "}
+          <span className={state.showImageOne ? "green bold" : "bold"}>
+            Bypass
+          </span>{" "}
+          to begin interacting with the app.
         </p>
       </section>
 
@@ -76,45 +108,73 @@ const Home = () => {
           work-in-progress with future features and modifications.
         </p>
 
-        <ShowImage img={dashboard} alt={dashboardAlt} />
+        <ShowImage
+          img={dashboard}
+          alt={dashboardAlt}
+          callback={() => dispatch({ type: "showImageTwo" })}
+        />
 
         <p className="homepage-p">
-          The <span className="blue">Main Buttons</span> allow a user to add,
-          change, or delete data stored on the database. API endpoints handle
-          the changes if the user submits the required info with a respective
-          button. The reload button will fetch more current data and display any
-          new changes in a selected table. The{" "}
-          <span className="green">Page Buttons</span> on the bottom right and
-          left of the blue screen allow the user to look through pages of data.
-          The <span className="yellow">Table Selector and Page Options</span>{" "}
+          The{" "}
+          <span className={state.showImageTwo ? "blue bold" : "bold"}>
+            Main Buttons
+          </span>{" "}
+          allow a user to add, change, or delete data stored on the database.
+          API endpoints handle the changes if the user submits the required info
+          with a respective button. The reload button will fetch more current
+          data and display any new changes in a selected table. The{" "}
+          <span className={state.showImageTwo ? "green bold" : "bold"}>
+            Page Buttons
+          </span>{" "}
+          on the bottom right and left of the blue screen allow the user to look
+          through pages of data. The{" "}
+          <span className={state.showImageTwo ? "yellow bold" : "bold"}>
+            Table Selector and Page Options
+          </span>{" "}
           allow the user to choose what data to render, the page, and items per
           page they would like to see. The{" "}
-          <span className="red">Reset Queries</span> button is currently
-          disabled until more functionality is introduced in the backend.
+          <span className={state.showImageTwo ? "red bold" : "bold"}>
+            Reset Queries
+          </span>{" "}
+          button is currently disabled until more functionality is introduced in
+          the backend.
         </p>
 
-        <ShowImage img={dashboardInput} alt={dashboardInputAlt} />
+        <ShowImage
+          img={dashboardInput}
+          alt={dashboardInputAlt}
+          callback={() => dispatch({ type: "showImageThree" })}
+        />
 
         <p className="homepage-p">
-          The <span className="green">Input Field</span> is where the user fills
-          in at minimum the required information needed to add, change, or
-          delete date from the database. The change and delete forms allow for
-          multiple simultaneous entries separated by commas. A message will pop
-          up on the screen if there was an error during submission or while
-          requesting a table.
+          The{" "}
+          <span className={state.showImageThree ? "green bold" : "bold"}>
+            Input Field
+          </span>{" "}
+          is where the user fills in at minimum the required information needed
+          to add, change, or delete date from the database. The change and
+          delete forms allow for multiple simultaneous entries separated by
+          commas. A message will pop up on the screen if there was an error
+          during submission or while requesting a table.
         </p>
       </section>
     </div>
   );
 };
 
-const ShowImage = ({ img, alt }) => {
+const ShowImage = ({ img, alt, callback }) => {
   const [showImage, setShowImage] = useState(false);
 
   return (
     <>
       <div>
-        <button type="button" onClick={() => setShowImage(!showImage)}>
+        <button
+          type="button"
+          onClick={() => {
+            setShowImage(!showImage);
+            callback();
+          }}
+        >
           {showImage ? "Hide" : "Show"} Image
         </button>
       </div>

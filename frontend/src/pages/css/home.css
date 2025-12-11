@@ -19,7 +19,7 @@
 }
 
 .homepage-h2 {
-  font-weight: 700;
+  font-weight: bold;
 }
 
 .homepage-h3 {
@@ -40,6 +40,10 @@
 .img-container img {
   max-width: 100%;
   height: auto;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .blue {
