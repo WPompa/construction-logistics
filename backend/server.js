@@ -5,7 +5,12 @@ app.use(express.json());
 //Look into whether I need to use express.urlencoded();
 //Look into whether I need to use express.static();
 const cors = require("cors");
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "",
+    optionsSuccessStatus: 200,
+  })
+);
 
 require("dotenv").config();
 
@@ -29,9 +34,10 @@ async function start() {
     // await connectToDB();
     await sequelize.authenticate();
     console.log("Connected to the MySQL database.");
-    app.listen(8081, () => {
+    //Uncomment for development
+    /* app.listen(8081, () => {
       console.log("Server listening...");
-    });
+    }); */
   } catch (error) {
     console.log(error);
     console.log("Server Initialization Aborted.");
@@ -42,3 +48,5 @@ start();
 
 console.log("models: ");
 console.log(sequelize.models);
+
+module.export = app;
