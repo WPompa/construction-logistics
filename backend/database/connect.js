@@ -1,30 +1,55 @@
 const mysql = require("mysql2/promise"); //Possible to change to mysql2 w/ no promises
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
+const Models = require("../models/index");
 
-const sequelize = new Sequelize(
-  process.env.MYSQL_DATABASE,
-  process.env.MYSQL_USER,
-  process.env.MYSQL_PASSWORD,
-  {
-    host: process.env.MYSQL_HOST,
-    dialect: "mysql",
-    pool: {
-      max: 10,
-      idle: 60000,
-      acquire: 60000,
-      evict: 1000,
-    },
-    logging: false,
-    define: {
-      timestamps: false,
-    },
-    //ssl?
-    //port?
+let sequelize = null;
+
+async function connectToDB() {
+  if (sequelize) {
+    console.log("Using cached database connection.");
+    return { sequelize, models: sequelize.models };
   }
-);
 
-//Unused
-function connectToDB() {
+  console.log("Establishing new connection to database.");
+
+  sequelize = new Sequelize(
+    process.env.MYSQL_DATABASE,
+    process.env.MYSQL_USER,
+    process.env.MYSQL_PASSWORD,
+    {
+      host: process.env.MYSQL_HOST,
+      dialect: "mysql",
+      pool: {
+        max: 5,
+        idle: 2000,
+        acquire: 30000,
+        evict: 2500,
+      },
+      logging: false,
+      define: {
+        timestamps: false,
+      },
+      //ssl?
+      //port?
+    }
+  );
+
+  try {
+    await sequelize.authenticate();
+    console.log("Connection Established.");
+
+    Models(sequelize, DataTypes);
+  } catch (error) {
+    console.error("Connection Failed: ", error);
+    sequelize = null;
+    throw error;
+  }
+
+  return { sequelize, models: sequelize.models };
+}
+
+//Unused for production, but used for development testing
+/* function connectToDB() {
   return mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
@@ -38,7 +63,7 @@ function connectToDB() {
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
   });
-}
+} */
 
 /* var connection = mysql.createConnection(credentials); //mysql2 no promise version
 
@@ -50,4 +75,4 @@ connection.connect((err) => {
   console.log("Connected to the MySQL database.");
 });
 */
-module.exports = { connectToDB, sequelize };
+module.exports = connectToDB;

@@ -1,7 +1,8 @@
 "use strict";
-const { sequelize: connection } = require("../database/connect");
+/* const { sequelize: connection } = require("../database/connect"); second way*/
+const connectToDB = require("../database/connect");
 const { Op } = require("sequelize");
-//const connection = connectToDB();
+//const connection = connectToDB(); first way
 /* I will probably need to use sequelize because writing the validations for each table + http method might be a big hassle and get extensive. */
 
 const asyncWrapper = require("../middleware/asyncWrapper");
@@ -38,7 +39,15 @@ ORDER BY materials.name;`,
 };
 
 let allPrimaryKeys = []; //becomes array of objects {tableName:TablePrimaryKeyName}, {... : ...}, ...
-const getPrimaryKeys = asyncWrapper(async () => {
+const getPrimaryKeys = asyncWrapper(async (req, res, next) => {
+  let connection = null;
+  if (req) {
+    connection = req.sequelize;
+  } else {
+    const { sequelize } = await connectToDB();
+    connection = sequelize;
+  }
+
   const [result] = await connection.query(
     `SELECT TABLE_NAME as "tableName", COLUMN_NAME as "primaryKey" FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "${process.env.MYSQL_DATABASE}" AND COLUMN_KEY = "PRI"`
   );
@@ -49,6 +58,7 @@ const getPrimaryKeys = asyncWrapper(async () => {
     console.log("Primary Keys acquired.");
   } else {
     console.log(result?.message); //What do for this situation?
+    next();
   }
 });
 getPrimaryKeys();
@@ -64,6 +74,7 @@ const getTable = asyncWrapper(async (req, res, next) => {
   const limit = Number(req.query.limit);
   const page = Number(req.query.page);
   const offset = (page - 1) * limit;
+  const connection = req.sequelize;
 
   //The following 4 lines are only temporary. They're good for checking if a table exists. Remove later.
   const sqlQuery = tableQueries[table];
@@ -115,6 +126,7 @@ const getTable = asyncWrapper(async (req, res, next) => {
 
 const createTableRow = asyncWrapper(async (req, res, next) => {
   const { postBody, table } = req.body;
+  const connection = req.sequelize;
 
   for (let key in postBody) {
     //remove empty values
@@ -143,6 +155,8 @@ const createTableRow = asyncWrapper(async (req, res, next) => {
 
 const updateTableRow = asyncWrapper(async (req, res, next) => {
   const { putBody, table, useEmpty } = req.body;
+  const connection = req.sequelize;
+
   console.log("putBody");
   console.log(putBody);
   //////////////////////////////////////////////////////////////////////
@@ -245,6 +259,8 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
 
 const deleteTableRow = asyncWrapper(async (req, res, next) => {
   const { table, deleteBody } = req.body;
+  const connection = req.sequelize;
+
   let arrayOfPKValues = [];
   for (let key in deleteBody) {
     if (deleteBody[key] === "") {
