@@ -8,17 +8,27 @@
   --yellow: #fff200;
 }
 
+.svg-container {
+  margin: 0 auto;
+}
+
 .homepage-svg {
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
 }
 
 .homepage-section {
-  margin-bottom: 1rem;
-  border: 1px solid white;
+  margin: 0 auto 1.5rem;
 }
 
+.homepage-h1 {
+  font-size: 3rem;
+  margin: 1rem auto;
+}
+
+.homepage-h1,
 .homepage-h2 {
+  margin: 1rem auto;
   font-weight: bold;
 }
 
@@ -44,6 +54,10 @@
 
 .bold {
   font-weight: bold;
+}
+
+.bg-color {
+  background-color: var(--secondary-bgColor);
 }
 
 .blue {
