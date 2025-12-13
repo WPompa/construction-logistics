@@ -68,4 +68,4 @@ start(); */
 /* console.log("models: ");
 console.log(sequelize.models); */
 
-module.export = app;
+module.exports = app;
