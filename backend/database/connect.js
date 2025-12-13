@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise"); //Possible to change to mysql2 w/ no promises
+//const mysql = require("mysql2/promise"); //Possible to change to mysql2 w/ no promises
 const { Sequelize, DataTypes } = require("sequelize");
 const Models = require("../models/index");
 
@@ -18,6 +18,7 @@ async function connectToDB() {
     process.env.MYSQL_PASSWORD,
     {
       host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT || 3306,
       dialect: "mysql",
       pool: {
         max: 5,
@@ -29,8 +30,8 @@ async function connectToDB() {
       define: {
         timestamps: false,
       },
+      dialectModule: require("mysql2"),
       //ssl?
-      //port?
     }
   );
 

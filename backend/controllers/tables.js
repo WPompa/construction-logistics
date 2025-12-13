@@ -58,7 +58,7 @@ const getPrimaryKeys = asyncWrapper(async (req, res, next) => {
     console.log("Primary Keys acquired.");
   } else {
     console.log(result?.message); //What do for this situation?
-    next();
+    //next();
   }
 });
 getPrimaryKeys();
