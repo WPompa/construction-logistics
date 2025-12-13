@@ -4,6 +4,7 @@ function asyncWrapper(callback) {
     try {
       await callback(req, res, next);
     } catch (error) {
+      console.log(error);
       console.log(callback());
       next(error);
     }
