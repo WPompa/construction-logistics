@@ -49,7 +49,7 @@ const getPrimaryKeys = asyncWrapper(async (req, res, next) => {
   }
 
   const [result] = await connection.query(
-    `SELECT TABLE_NAME as 'tableName', COLUMN_NAME as 'primaryKey' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '${process.env.MYSQL_DATABASE_NAME}' AND COLUMN_KEY = 'PRI'`
+    `SELECT TABLE_NAME as 'tableName', COLUMN_NAME as 'primaryKey' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '${process.env.MYSQL_DATABASE}' AND COLUMN_KEY = 'PRI'`
   );
   //
   if (result) {
