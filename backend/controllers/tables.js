@@ -1,5 +1,5 @@
 "use strict";
-/* const { sequelize: connection } = require("../database/connect"); second way*/
+/* const { sequelize: connection } = require('../database/connect'); second way*/
 const connectToDB = require("../database/connect");
 const { Op } = require("sequelize");
 //const connection = connectToDB(); first way
@@ -9,13 +9,13 @@ const asyncWrapper = require("../middleware/asyncWrapper");
 const { createErrorAPI } = require("../middleware/ErrorAPI");
 
 const tableQueries = {
-  employees: `SELECT empid AS "Emp ID", fname AS "First Name", lname AS "Last Name", Title, supervisorid AS "Supervisor", jobsiteid AS "Jobsite" FROM employees`,
-  materials: `SELECT MaterialID as "Mat ID", Name, MaterialType as "Material Type", Length, Width, Height, SupplierName as "Supplier Name", TotalAvailable as "Total Available", LostAmounts as "Lost Amounts" from materials`,
-  stored_in: `SELECT StorageAreaID AS "Storage Area", MaterialID AS "Material", Amount FROM stored_in`,
-  storage_areas: `SELECT StorageAreaID AS "Storage Area ID", Length, Width, Height, Location, JobsiteID AS "Jobsite ID", TotalStored AS "Total Stored", Is_Container FROM storage_areas`,
-  jobsites: `SELECT JobsiteID AS "Jobsite ID", JobsiteName AS "Jobsite Name" FROM jobsites`,
-  activity_log: `SELECT ActivityID AS "Activity ID", EmpID AS "Emp ID", Action, JobsiteID AS "Jobsite ID", timedone AS "Time-Stamp" FROM activity_log`,
-  leadership: `SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, " ", emp1.lname) AS Name, emp1.title AS Title
+  employees: `SELECT empid AS 'Emp ID', fname AS 'First Name', lname AS 'Last Name', Title, supervisorid AS 'Supervisor', jobsiteid AS 'Jobsite' FROM employees`,
+  materials: `SELECT MaterialID as 'Mat ID', Name, MaterialType as 'Material Type', Length, Width, Height, SupplierName as 'Supplier Name', TotalAvailable as 'Total Available', LostAmounts as 'Lost Amounts' from materials`,
+  stored_in: `SELECT StorageAreaID AS 'Storage Area', MaterialID AS 'Material', Amount FROM stored_in`,
+  storage_areas: `SELECT StorageAreaID AS 'Storage Area ID', Length, Width, Height, Location, JobsiteID AS 'Jobsite ID', TotalStored AS 'Total Stored', Is_Container FROM storage_areas`,
+  jobsites: `SELECT JobsiteID AS 'Jobsite ID', JobsiteName AS 'Jobsite Name' FROM jobsites`,
+  activity_log: `SELECT ActivityID AS 'Activity ID', EmpID AS 'Emp ID', Action, JobsiteID AS 'Jobsite ID', timedone AS 'Time-Stamp' FROM activity_log`,
+  leadership: `SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, ' ', emp1.lname) AS Name, emp1.title AS Title
 FROM employees as emp1
 JOIN employees as emp2
 ON emp2.supervisorid = emp1.empid;`,
@@ -49,7 +49,7 @@ const getPrimaryKeys = asyncWrapper(async (req, res, next) => {
   }
 
   const [result] = await connection.query(
-    `SELECT TABLE_NAME as "tableName", COLUMN_NAME as "primaryKey" FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "${process.env.MYSQL_DATABASE}" AND COLUMN_KEY = "PRI"`
+    `SELECT TABLE_NAME as 'tableName', COLUMN_NAME as 'primaryKey' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '${process.env.MYSQL_DATABASE_NAME}' AND COLUMN_KEY = 'PRI'`
   );
   //
   if (result) {
@@ -79,7 +79,7 @@ const getTable = asyncWrapper(async (req, res, next) => {
   //The following 4 lines are only temporary. They're good for checking if a table exists. Remove later.
   const sqlQuery = tableQueries[table];
   if (!sqlQuery) {
-    return next(createErrorAPI(`Table "${table}" is undefined`, 400));
+    return next(createErrorAPI(`Table '${table}' is undefined`, 400));
   }
 
   if (table === "leadership") {
@@ -87,13 +87,13 @@ const getTable = asyncWrapper(async (req, res, next) => {
     return res.status(200).json(result);
   }
 
-  //An if statement to catch "emp + jobsites" until I implement it with sequelize.
+  //An if statement to catch 'emp + jobsites' until I implement it with sequelize.
   if (table === "emp + jobsites") {
     const [result] = await connection.query(sqlQuery);
     return res.status(200).json(result);
   }
 
-  //An if statement to catch "mat. amounts" until I implement it with sequelize.
+  //An if statement to catch 'mat. amounts' until I implement it with sequelize.
   if (table === "mat. amounts") {
     const [result] = await connection.query(sqlQuery);
     return res.status(200).json(result);
@@ -166,13 +166,13 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
   const tablePrimaryKeys = allPrimaryKeys.filter(
     (dbTable) => dbTable.tableName === table
   );
-  /* console.log("-------------------------");
-  console.log("tablePrimaryKeys:");
+  /* console.log('-------------------------');
+  console.log('tablePrimaryKeys:');
   console.log(tablePrimaryKeys);
-  console.log("-------------------------");
-  console.log("allPrimaryKeys:");
+  console.log('-------------------------');
+  console.log('allPrimaryKeys:');
   console.log(allPrimaryKeys);
-  console.log("-------------------------"); */
+  console.log('-------------------------'); */
   //////////////////////////////////////////////////////////////////////
   //Separate PKs from putBody into array.
   //store_in should give arrayOfPKValues[{pkObj1},{pkObj2}], others [{pkObj}]
@@ -205,7 +205,7 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
     return;
   }
   //////////////////////////////////////////////////////////////////////
-  // Look for empty key-values and remove the keys. Need to check for "set null" flag here.
+  // Look for empty key-values and remove the keys. Need to check for 'set null' flag here.
   for (let key in putBody) {
     if (putBody[key] === "" && useEmpty?.[key] !== true) {
       //remove empty values
