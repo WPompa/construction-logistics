@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     foreignKey: "StorageAreaID",
   });
 
-  sequelize.sync({ alter: true });
-  console.log("models.sync({ alter: true })");
+  //For development use only.
+  /* sequelize.sync({ alter: true });
+  console.log("models.sync({ alter: true })"); */
 };
