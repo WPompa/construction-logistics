@@ -8,11 +8,15 @@ require("dotenv").config();
 
 const cors = require("cors");
 const allowedOrigins = [process.env.FRONTEND_URL, process.env.DEV_URL];
+console.log("CORS Allowed: ", allowedOrigins);
+
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("Blocked Origin: ", origin);
+
       callback(new Error("Not allowed by CORS"), false);
     }
   },
