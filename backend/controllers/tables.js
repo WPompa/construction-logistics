@@ -103,7 +103,7 @@ const getTable = asyncWrapper(async (req, res, next) => {
   /* connection.models.employee // ...models[someVar].findAll()... would work too.
     .findAll()
     .then((result) => console.log(JSON.stringify(result, null, 2))); */
-  const result = await ORM.models[table].findAll({
+  const result = await ORM[table].findAll({
     offset,
     limit,
   });
@@ -141,7 +141,7 @@ const createTableRow = asyncWrapper(async (req, res, next) => {
     } */
   }
 
-  const result = await ORM.models[table].create(postBody); //{fields: []} to exclude injected key-values.
+  const result = await ORM[table].create(postBody); //{fields: []} to exclude injected key-values.
 
   if (!result) {
     console.log("bad result");
@@ -248,7 +248,7 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
 
   console.log("options obj: ");
   console.log(options);
-  const result = await ORM.models[table].update(putBody, {
+  const result = await ORM[table].update(putBody, {
     where: options,
   });
 
@@ -287,7 +287,7 @@ const deleteTableRow = asyncWrapper(async (req, res, next) => {
 
   console.log("options:");
   console.log(options);
-  const result = await ORM.models[table].destroy({
+  const result = await ORM[table].destroy({
     where: options,
   });
   if (result > 0) {
