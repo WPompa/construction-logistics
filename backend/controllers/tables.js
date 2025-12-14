@@ -68,13 +68,14 @@ getPrimaryKeys();
 /*
 return next(createErrorAPI(msg, 404))
 */
-
+//////////////////connnection.models[table] is undefined. pls fix.
 const getTable = asyncWrapper(async (req, res, next) => {
   const table = req.query.table;
   const limit = Number(req.query.limit);
   const page = Number(req.query.page);
   const offset = (page - 1) * limit;
   const connection = req.sequelize;
+  const ORM = req.models;
 
   //The following 4 lines are only temporary. They're good for checking if a table exists. Remove later.
   const sqlQuery = tableQueries[table];
@@ -102,7 +103,7 @@ const getTable = asyncWrapper(async (req, res, next) => {
   /* connection.models.employee // ...models[someVar].findAll()... would work too.
     .findAll()
     .then((result) => console.log(JSON.stringify(result, null, 2))); */
-  const result = await connection.models[table].findAll({
+  const result = await ORM.models[table].findAll({
     offset,
     limit,
   });
@@ -126,7 +127,7 @@ const getTable = asyncWrapper(async (req, res, next) => {
 
 const createTableRow = asyncWrapper(async (req, res, next) => {
   const { postBody, table } = req.body;
-  const connection = req.sequelize;
+  const ORM = req.models;
 
   for (let key in postBody) {
     //remove empty values
@@ -140,7 +141,7 @@ const createTableRow = asyncWrapper(async (req, res, next) => {
     } */
   }
 
-  const result = await connection.models[table].create(postBody); //{fields: []} to exclude injected key-values.
+  const result = await ORM.models[table].create(postBody); //{fields: []} to exclude injected key-values.
 
   if (!result) {
     console.log("bad result");
@@ -155,7 +156,7 @@ const createTableRow = asyncWrapper(async (req, res, next) => {
 
 const updateTableRow = asyncWrapper(async (req, res, next) => {
   const { putBody, table, useEmpty } = req.body;
-  const connection = req.sequelize;
+  const ORM = req.models;
 
   console.log("putBody");
   console.log(putBody);
@@ -247,7 +248,7 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
 
   console.log("options obj: ");
   console.log(options);
-  const result = await connection.models[table].update(putBody, {
+  const result = await ORM.models[table].update(putBody, {
     where: options,
   });
 
@@ -259,7 +260,7 @@ const updateTableRow = asyncWrapper(async (req, res, next) => {
 
 const deleteTableRow = asyncWrapper(async (req, res, next) => {
   const { table, deleteBody } = req.body;
-  const connection = req.sequelize;
+  const ORM = req.models;
 
   let arrayOfPKValues = [];
   for (let key in deleteBody) {
@@ -286,7 +287,7 @@ const deleteTableRow = asyncWrapper(async (req, res, next) => {
 
   console.log("options:");
   console.log(options);
-  const result = await connection.models[table].destroy({
+  const result = await ORM.models[table].destroy({
     where: options,
   });
   if (result > 0) {
