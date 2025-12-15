@@ -7,6 +7,7 @@ import "./css/dashboard.css";
 import CurrentPage from "../components/minor-components/CurrentPage";
 import CurrentLimit from "../components/minor-components/CurrentLimit";
 import ErrorModal from "../components/minor-components/ErrorModal";
+import Loading from "../components/dashboard-components/Loading";
 
 export const DashboardContext = React.createContext();
 
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const [reload, setReload] = useState(false);
   const [methodOption, setMethodOption] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   let backgroundDivRef = useRef(false);
   let table = useRef("");
   let page = useRef(1);
@@ -53,14 +55,18 @@ const Dashboard = () => {
   }, [tableUrl, reload]);
 
   const getData = () => {
+    setIsLoading(true);
+
     fetch(tableUrl)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
         console.log(data); //remove later.
+        setIsLoading(false);
       })
       .catch((err) => {
         setShowModal(true);
+        setIsLoading(false);
         return console.log(err);
       }); //Eventually set error or its message to a variable and modal it or similar. Handle errors.
   };
@@ -283,7 +289,11 @@ const Dashboard = () => {
 
         <div className="dashboard-item dashboard-data-container">
           <div className={backgroundDivRef.current ? "background-div" : ""}>
-            {<DisplayData tableUrl={tableUrl} data={data} />}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <DisplayData tableUrl={tableUrl} data={data} />
+            )}
           </div>
         </div>
 
