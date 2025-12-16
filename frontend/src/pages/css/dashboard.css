@@ -8,6 +8,7 @@
   width: 50rem;
   margin: 0.75rem auto;
   padding: 0.25rem;
+  box-shadow: var(--lightShadow);
 }
 
 .dashboard-input-container {
@@ -99,7 +100,7 @@
 }
 .add-btn:hover {
   border-color: lightgreen;
-  box-shadow: 0 0 0.25rem 0.125rem #32cd32;
+  box-shadow: 0 0 0.25rem 1px #32cd32;
 }
 
 .delete-btn {
@@ -107,7 +108,7 @@
 }
 .delete-btn:hover {
   border-color: red;
-  box-shadow: 0 0 0.25rem 0.125rem #ff6347;
+  box-shadow: 0 0 0.25rem 1px #ff6347;
 }
 
 .change-btn {
@@ -119,7 +120,7 @@
 }
 .change-btn:hover {
   border-color: darkgray;
-  box-shadow: 0 0 0.25rem 0.125rem darkgray;
+  box-shadow: 0 0 0.25rem 1px darkgray;
 }
 
 .page-btn {
@@ -189,6 +190,7 @@ th {
 
 .select-container {
   margin-bottom: 0;
+  box-shadow: var(--lightShadow);
 }
 .select-container-btn {
   margin: 0.25rem 10% 0.5rem 0.5rem;
