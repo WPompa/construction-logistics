@@ -2,7 +2,9 @@ import "./css/error.css";
 const Error = () => {
   return (
     <section className="not-found">
-      <h2>Error: Page Does Not Exist!</h2>
+      <h2>
+        <span className="error-color">Error:</span> Page Does Not Exist!
+      </h2>
     </section>
   );
 };
