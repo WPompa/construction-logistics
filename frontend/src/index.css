@@ -137,6 +137,6 @@ footer {
   margin: auto;
 }
 
-.abc {
-  display: none;
+.active {
+  color: var(--hover);
 }
