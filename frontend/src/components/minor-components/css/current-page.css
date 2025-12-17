@@ -11,3 +11,6 @@
 .select-current-page input {
   width: 2rem;
 }
+.select-current-page input:hover {
+  border-color: var(--hover);
+}

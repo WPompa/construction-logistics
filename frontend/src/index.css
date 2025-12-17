@@ -6,21 +6,24 @@
   text-align: center;
 }
 :root {
-  --primary-bgColor: #242424;
-  --secondary-bgColor: #272727;
-
-  --primary-color: black;
-  --secondary-color: black;
-  --accent-color: black;
-
-  --primary-textColor: rgba(255, 255, 255, 0.85);
-  --secondary-textColor: #646cff;
-
-  --primary-hoverColor: black;
-  --secondary-hoverColor: #f25353;
-
+  --primary: #1a1a1a;
+  --secondary: #242424;
+  --accent: #2176ff;
   --alt-color1: #1a1a1a;
   --alt-color2: #0a0a23;
+  --alt-color3: #242424;
+  --alt-color3: #ddd8b8;
+
+  --text: #ffffff;
+  --text-alt: #2176ff;
+
+  --bg: #1a1a1a;
+  --bg-alt: #242424;
+
+  --hover: #2176ff;
+  --hover-alt: #f25353;
+
+  --border: #2176ff;
 
   --lightShadow: 2px 4px 2px 0px rgba(0, 0, 0, 0.5);
 
@@ -29,8 +32,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--primary-textColor);
-  background-color: var(--primary-bgColor);
+  color: var(--text);
+  background-color: var(--bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -41,8 +44,8 @@
 /* minor & optional */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--text);
+    background-color: var(--bg);
   }
 }
 
@@ -59,11 +62,11 @@ h1 {
 
 a {
   font-weight: 500;
-  color: var(--secondary-textColor);
+  color: var(--text);
   text-decoration: inherit;
 }
 a:hover {
-  color: var(--secondary-hoverColor);
+  color: var(--hover);
 }
 
 button {
@@ -74,12 +77,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--alt-color1);
+  background-color: var(--bg);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  color: var(--hover);
+  border-color: var(--hover);
 }
 button:focus,
 button:focus-visible {
@@ -91,7 +95,7 @@ select {
 }
 select:hover {
   cursor: pointer;
-  border-color: var(--secondary-textColor);
+  border-color: var(--hover);
 }
 
 footer {
@@ -99,7 +103,9 @@ footer {
   width: 69rem;
   padding: 0.5rem;
   margin: 10rem auto 2rem;
-  background-color: var(--secondary-bgColor);
+  background-color: var(--bg-alt);
+  border-left: var(--accent) 0.125rem solid;
+  box-shadow: var(--lightShadow);
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -107,11 +113,14 @@ footer {
 .navbar {
   margin: 0.5rem auto 1rem;
   width: 69rem;
-  background-color: var(--secondary-bgColor);
+  background-color: var(--bg-alt);
+  border-top: var(--accent) 0.125rem solid;
+  border-left: var(--accent) 0.125rem solid;
+  box-shadow: var(--lightShadow);
 }
 .navbar a {
   display: inline-block;
-  background-color: var(--alt-color1);
+  background-color: var(--bg);
   border-radius: 0.5em;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -120,7 +129,7 @@ footer {
 }
 
 .navbar a:hover {
-  border-color: var(--secondary-hoverColor);
+  border-color: var(--hover);
 }
 
 .navlinks {

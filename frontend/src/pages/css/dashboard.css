@@ -4,7 +4,7 @@
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
-  background: #272727;
+  background: var(--bg-alt);
   width: 50rem;
   margin: 0.75rem auto;
   padding: 0.25rem;
@@ -15,6 +15,7 @@
   display: block;
   min-height: 5rem;
   padding: 0 0.25rem;
+  border-left: var(--accent) 0.125rem solid;
 }
 
 .dashboard-form-container {
@@ -99,6 +100,7 @@
   background: linear-gradient(to bottom, #228b22, #228b2282);
 }
 .add-btn:hover {
+  color: var(--text);
   border-color: lightgreen;
   box-shadow: 0 0 0.25rem 1px #32cd32;
 }
@@ -107,6 +109,7 @@
   background: linear-gradient(to bottom, darkred, rgba(139, 0, 0, 0.516));
 }
 .delete-btn:hover {
+  color: var(--text);
   border-color: red;
   box-shadow: 0 0 0.25rem 1px #ff6347;
 }
@@ -119,6 +122,7 @@
   );
 }
 .change-btn:hover {
+  color: var(--text);
   border-color: darkgray;
   box-shadow: 0 0 0.25rem 1px darkgray;
 }
@@ -135,7 +139,7 @@
   padding: 0;
   overflow: auto;
   background-image: linear-gradient(to bottom, blue, indigo);
-  border: 0.25rem solid var(--secondary-bgColor);
+  border: 0.25rem solid var(--bg-alt);
 }
 .dashboard-data-container table {
   margin: 0.25rem auto;
@@ -190,6 +194,7 @@ th {
 
 .select-container {
   margin-bottom: 0;
+  border-left: var(--accent) 0.125rem solid;
   box-shadow: var(--lightShadow);
 }
 .select-container-btn {
@@ -207,6 +212,10 @@ th {
   text-align: center;
   font-size: 1.25rem;
   margin: 0.25rem;
+}
+
+.select-table select:hover {
+  border: 0.125rem solid var(--hover);
 }
 
 .select-table label {
