@@ -5,17 +5,21 @@ const ErrorModal = ({ setShowModal }) => {
   const [count, setCount] = useState(5);
 
   useEffect(() => {
-    if (count <= 0) {
-      return setShowModal(false);
-    }
     const id = setInterval(() => {
-      setCount((prev) => prev - 1);
+      setCount((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (count <= 0) {
+      setShowModal(false);
+    }
   }, [count]);
 
   return (
-    <div className="modal-container">
+    <dialog className="modal-container">
       <div className="modal">
         <h4>THERE WAS AN ERROR!</h4>
         <p>Check browser console for more information.</p>
@@ -26,7 +30,7 @@ const ErrorModal = ({ setShowModal }) => {
           </button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 
