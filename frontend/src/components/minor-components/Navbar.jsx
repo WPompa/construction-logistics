@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import CurrentUser from "./minor-components/CurrentUser";
+import CurrentUser from "./CurrentUser";
 
-export const Navbar = () => {
+const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navlinks">
@@ -11,12 +11,14 @@ export const Navbar = () => {
         >
           Home
         </NavLink>
+
         <NavLink
           to="/Login"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
           Login
         </NavLink>
+
         <NavLink
           to="/Dashboard"
           className={({ isActive }) => (isActive ? "active" : "")}

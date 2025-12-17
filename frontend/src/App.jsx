@@ -31,10 +31,6 @@ function App() {
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>
-        <footer>
-          <p>&lt;&lt; &copy; Walter Pompa &gt;&gt;</p>
-          <p>API Connected CRUD Web App</p>
-        </footer>
       </BrowserRouter>
       <Analytics />
     </UserContext.Provider>

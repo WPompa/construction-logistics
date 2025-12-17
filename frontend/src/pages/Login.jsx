@@ -51,6 +51,7 @@ const Login = ({ setUser }) => {
   if (user?.username) {
     return <Navigate to="/Dashboard" />;
   }
+
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2>LOGIN</h2>
