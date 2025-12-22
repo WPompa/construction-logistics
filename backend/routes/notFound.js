@@ -7,7 +7,9 @@ router.all(
   "/{*any}",
   asyncWrapper(async (req, res, next) => {
     console.log("Request to:", req.path);
-    return res.status(404).send("API Route Not Found");
+    return res
+      .status(404)
+      .json({ status: "Failure!", result: "API Route Not Found" });
   })
 );
 
