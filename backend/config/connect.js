@@ -1,6 +1,6 @@
 //const mysql = require("mysql2/promise"); //Possible to change to mysql2 w/ no promises
 const { Sequelize, DataTypes } = require("sequelize");
-const Models = require("../models/index");
+const Models = require("../models/");
 
 let sequelize = null;
 

@@ -1,32 +1,36 @@
 "use strict";
-const { ErrorAPI } = require("./ErrorAPI");
+const { AppError } = require("../utils/AppError");
 
 const errorHandler = (err, req, res, next) => {
-  if (err instanceof ErrorAPI) {
-    return res.status(err.statusCode).json(err.message);
+  if (err instanceof AppError) {
+    console.error("AppError: ", err.message);
+
+    return res.status(err.statusCode).json({
+      status: "Failure!",
+      message: err.message,
+      stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    });
   }
 
-  if (err.name === "SequelizeValidationError") {
-    console.log(err);
-    let error = {
-      "Error Type": err.name,
-      "Error Messages": [],
-    };
-    err.errors.forEach((item) => error["Error Messages"].push(item.message));
-    return res.status(400).json(error);
+  if (err.name.includes("Sequelize")) {
+    console.error("Sequelize Error: ", err.name);
+    console.error("Errors: ", err?.errors);
+    console.error("Stack: ", err.stack);
+
+    return res.status(400).json({
+      status: "Error",
+      message: err.message,
+      stack: undefined,
+    });
   }
 
-  if (err.name === "SequelizeDatabaseError") {
-    console.log(err);
-    let error = {
-      "Error Type": err.name,
-      "Error Messages": err.original.sqlMessage,
-    };
-    return res.status(400).json(error);
-  }
-  console.log(err);
-  //console.log(JSON.stringify(err, null, 2));
-  return res.json(err); //Does res.json(err) work too? Just so I dont hardcode 500 as the status code. -It looks like it might.
+  console.log(JSON.stringify(err, null, 2));
+
+  return res.status(500).json({
+    status: "Error",
+    message: "Internal Server Error",
+    stack: undefined,
+  });
 };
 
 module.exports = errorHandler;

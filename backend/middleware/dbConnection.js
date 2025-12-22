@@ -1,4 +1,4 @@
-const connectToDB = require("../database/connect");
+const connectToDB = require("../config/connect");
 
 const dbConnection = async (req, res, next) => {
   if (!req.app.get("sequelize") || !req.app.get("models")) {

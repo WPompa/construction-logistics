@@ -1,19 +1,18 @@
 "use strict";
 const express = require("express");
+const cors = require("cors");
+const dbConnection = require("./middleware/dbConnection");
+const auth = require("./middleware/auth");
+const { connectToDB, sequelize } = require("./config/connect");
 const app = express();
-app.use(express.json());
-//Look into whether I need to use express.urlencoded();
-//Look into whether I need to use express.static();
 require("dotenv").config();
 
-const cors = require("cors");
 const allowedOrigins = [process.env.FRONTEND_URL, process.env.DEV_URL];
-console.log("CORS Allowed: ", allowedOrigins);
-
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       console.log("Allowed Origin: ", origin);
+
       callback(null, true);
     } else {
       console.log("Blocked Origin: ", origin);
@@ -21,33 +20,49 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"), false);
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
 };
+
+///// Middleware /////
+app.use(express.json());
 
 app.use(cors(corsOptions));
 
-/* const { connectToDB, sequelize } = require("./database/connect"); */
-//require("./models/index");
-//require("./models/employees.model");
-
-const dbConnection = require("./middleware/dbConnection");
 app.use(dbConnection);
 
-const auth = require("./routes/auth");
 app.use("/login", auth);
 
-const tables = require("./routes/tables");
-app.use("/api/v1/", tables);
+///// Routes /////
+const baseRoute = "/api/v1/";
+
+const employees = require("./routes/employees.routes");
+app.use(baseRoute, employees);
+
+const materials = require("./routes/materials.routes");
+app.use(baseRoute, materials);
+
+const jobsites = require("./routes/jobsites.routes");
+app.use(baseRoute, jobsites);
+
+const storage_areas = require("./routes/storage_areas.routes");
+app.use(baseRoute, storage_areas);
+
+const stored_in = require("./routes/stored_in.routes");
+app.use(baseRoute, stored_in);
 
 const other = require("./routes/other");
-app.all("/{*any}", other);
+app.use(baseRoute, other);
 
+const notFound = require("./routes/notFound");
+app.use("/{*any}", notFound);
+
+///// Error Handler /////
 const errorHandler = require("./middleware/errorHandler");
 app.use(errorHandler);
 
 ///////////////////////////////////////////////////
 
-//Uncomment for development
+//For development
 /* async function start() {
   try {
     // await connectToDB();
