@@ -13,7 +13,7 @@ export const DashboardContext = React.createContext();
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
-  const [tableUrl, setTableUrl] = useState("");
+  const [tableToDisplay, setTableToDisplay] = useState("");
   const [reload, setReload] = useState(false);
   const [methodOption, setMethodOption] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -24,19 +24,18 @@ const Dashboard = () => {
   let limit = useRef(10);
 
   const params = new URLSearchParams();
-  params.set("table", table.current);
+  params.set("table", tableToDisplay);
   params.set("page", page.current);
   params.set("limit", limit.current);
 
-  const TABLE_DATA_URL = new URL(import.meta.env.VITE_TABLE_DATA_URL);
   const API_URL = new URL(import.meta.env.VITE_API_URL);
 
   /////////////////////////////////////////////
-  const dbTableNames = {
+  const DBTableNames = {
     Employees: "employees",
     Materials: "materials",
-    "Stored In": "stored_in",
-    "Storage Areas": "storage_areas",
+    "Stored In": "storedin",
+    "Storage Areas": "storageareas",
     Jobsites: "jobsites",
     Leadership: "leadership",
     "Emp + Jobsites": "emp + jobsites",
@@ -46,18 +45,23 @@ const Dashboard = () => {
   /////////////////////////////////////////////
 
   useEffect(() => {
-    if (tableUrl) {
-      getData();
+    if (tableToDisplay) {
+      getData(table.current);
       console.log("getData()");
     } else {
-      console.log("No URL for getData()");
+      console.log("No table for getData()");
     }
-  }, [tableUrl, reload]);
-
-  const getData = () => {
+  }, [tableToDisplay, reload]);
+  /////////////////////////////////////////////
+  const getData = (table) => {
     setIsLoading(true);
 
-    fetch(tableUrl)
+    const endpoint = new URL(table, API_URL);
+    console.log(endpoint.href);
+    endpoint.search = params.toString();
+    console.log(params.toString());
+
+    fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -72,24 +76,36 @@ const Dashboard = () => {
   };
 
   //Setting select to none does not remove rendered data from container.
-  const changeUrl = (e) => {
-    let newUrl = "";
+  const changeDisplayedTable = (e) => {
+    let newTableToDisplay = "";
+    const other = ["leadership", "emp + jobsites", "mat. amounts"];
 
     if (e?.target.value) {
       backgroundDivRef.current = true;
+      newTableToDisplay = e.target.value;
       table.current = e.target.value;
-      params.set("table", table.current);
-      newUrl = TABLE_DATA_URL.toString() + params.toString();
+      params.set("table", "leadership");
+      console.log(e.target.value);
+      console.log(params.toString());
+      console.log("outside:" + newTableToDisplay);
+
+      if (other.includes(newTableToDisplay)) {
+        console.log("inside True:" + newTableToDisplay);
+
+        table.current = "other";
+      }
     } else {
       backgroundDivRef.current = false;
     }
-    tableUrl !== newUrl ? setTableUrl(newUrl) : {}; //Better approach would be to use if(), but this was just for my own curiosity.
+    tableToDisplay !== newTableToDisplay
+      ? setTableToDisplay(newTableToDisplay)
+      : {}; //Better approach would be to use if(), but this was just for my own curiosity.
   };
 
   const updateURLParams = (param, value) => {
     params.set(param, value);
-    if (tableUrl) {
-      setTableUrl(TABLE_DATA_URL.toString() + params.toString());
+    if (tableToDisplay) {
+      setReload(!reload);
     }
   };
 
@@ -107,11 +123,9 @@ const Dashboard = () => {
   that data belongs to is the active table in DisplayData then the table will be reloaded with the new 
   data. */
   const reloadDataContainer = (table) => {
-    //...url.../get?table=`someTableName`
-    const dataContainerDropdownValue = tableUrl.substring(
-      tableUrl.lastIndexOf("=") + 1
-    );
-    if (table === dataContainerDropdownValue) {
+    const dropdownValue = table;
+    console.log(dropdownValue);
+    if (tableToDisplay === dropdownValue) {
       setReload(!reload);
     }
   };
@@ -125,10 +139,12 @@ const Dashboard = () => {
     console.log("post()");
     console.log(JSON.stringify({ postBody, table }));
 
-    fetch(API_URL, {
+    const endpoint = new URL(table, API_URL);
+
+    fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ postBody, table }),
+      body: JSON.stringify({ postBody }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -145,10 +161,12 @@ const Dashboard = () => {
     console.log("delete()");
     console.log(deleteBody);
 
-    fetch(API_URL, {
+    const endpoint = new URL(table, API_URL);
+
+    fetch(endpoint, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deleteBody, table }),
+      body: JSON.stringify({ deleteBody }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -165,7 +183,9 @@ const Dashboard = () => {
     console.log("put()");
     console.log(JSON.stringify({ putBody, table, useEmpty }));
 
-    fetch(API_URL, {
+    const endpoint = new URL(table, API_URL);
+
+    fetch(endpoint, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ putBody, table, useEmpty }),
@@ -272,10 +292,10 @@ const Dashboard = () => {
 
           <div className="select-table">
             <label htmlFor="tables">Select a Table: </label>
-            <select name="tables" id="tables" onChange={changeUrl}>
+            <select name="tables" id="tables" onChange={changeDisplayedTable}>
               <option value="">None</option>
-              {Object.keys(dbTableNames).map((tableName) => (
-                <option key={tableName} value={dbTableNames[tableName]}>
+              {Object.keys(DBTableNames).map((tableName) => (
+                <option key={tableName} value={DBTableNames[tableName]}>
                   {tableName}
                 </option>
               ))}
@@ -292,7 +312,7 @@ const Dashboard = () => {
             {isLoading ? (
               <Loading />
             ) : (
-              <DisplayData tableUrl={tableUrl} data={data} />
+              <DisplayData tableToDisplay={tableToDisplay} data={data} />
             )}
           </div>
         </div>

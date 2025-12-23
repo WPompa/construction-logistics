@@ -1,36 +1,35 @@
 //
 
-const DisplayData = ({ tableUrl, data }) => {
+const DisplayData = ({ tableToDisplay, data }) => {
   //Could probably just use Object.keys()
-  const columnNames = () => {
-    if (data.length === 0) {
+  const getColumnNames = () => {
+    if (!data.result?.length) {
       return [];
     }
 
-    let result = [];
-
-    for (const propertyName in data[0]) {
+    const result = [];
+    for (const propertyName in data.result[0]) {
       result.push(<th key={propertyName}> {propertyName} </th>);
     }
 
     return result;
   };
 
-  const rowData = () => {
-    if (data.length === 0 || data.length === undefined) {
+  const getRowData = () => {
+    if (data.result?.length === 0 || data.result?.length === undefined) {
       return [];
     }
 
-    let propertyNames = Object.keys(data[0]);
-    let result = [];
+    let propertyNames = Object.keys(data.result[0]);
+    const result = [];
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.result.length; i++) {
       result.push([]);
 
       for (let j = 0; j < propertyNames.length; j++) {
         result[i].push(
           <td key={"row " + i + " prop: " + propertyNames[j]}>
-            {data[i][propertyNames[j]]}
+            {data.result[i][propertyNames[j]]}
           </td>
         );
       }
@@ -39,22 +38,22 @@ const DisplayData = ({ tableUrl, data }) => {
     return result;
   };
 
-  if (!tableUrl) return <></>;
+  if (!tableToDisplay) return <></>;
 
-  //rowData should not use index i for key prop. Fix, then remove comment.
+  //getRowData should not use index i for key prop. Fix, then remove comment.
   return (
     <table>
       <thead>
-        <tr>{columnNames()}</tr>
+        <tr>{getColumnNames()}</tr>
       </thead>
       <tbody>
-        {rowData().map((rowData, i) => (
+        {getRowData().map((RowData, i) => (
           <tr
             key={i}
             className="table-item"
             onClick={() => alert("Click! (future feature)")}
           >
-            {rowData}
+            {RowData}
           </tr>
         ))}
       </tbody>
