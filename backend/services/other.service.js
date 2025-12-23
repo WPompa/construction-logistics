@@ -24,3 +24,5 @@ const getOther = async (sequelize, tableName, currentPage, currentLimit) => {
 
   return { result, metadata };
 };
+
+module.exports = getOther;
