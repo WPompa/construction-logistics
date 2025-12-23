@@ -1,10 +1,13 @@
+const { QueryTypes } = require("sequelize");
 const { AppError } = require("../utils/AppError");
 const getPagination = require("../utils/paginationHelper");
 const tables = require("../utils/RawQueries");
 
 const getOther = async (sequelize, tableName, currentPage, currentLimit) => {
   //Will return [ { Count: <number> } ]
-  const [total] = await sequelize.query(tables[tableName].count);
+  const [total] = await sequelize.query(tables[tableName].count, {
+    type: QueryTypes.SELECT,
+  });
 
   const { offset, limit, metadata } = getPagination(
     currentPage,
@@ -12,9 +15,9 @@ const getOther = async (sequelize, tableName, currentPage, currentLimit) => {
     total.Count
   );
 
-  const [result] = await sequelize.query(tables[tableName].query, {
-    offset,
-    limit,
+  const result = await sequelize.query(tables[tableName].query, {
+    replacements: { limit, offset },
+    type: QueryTypes.SELECT,
   });
 
   //If pagination works as intended this snippet might never be used.

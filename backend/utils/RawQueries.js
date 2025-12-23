@@ -8,7 +8,8 @@ const tables = {
     query: `SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, ' ', emp1.lname) AS Name, emp1.title AS Title
         FROM employees as emp1
         JOIN employees as emp2
-        ON emp2.supervisorid = emp1.empid;`,
+        ON emp2.supervisorid = emp1.empid
+        LIMIT :limit OFFSET :offset;`,
   },
 
   "emp + jobsites": {
@@ -23,7 +24,8 @@ const tables = {
         jobsites.jobsitename AS Jobsite
         FROM employees 
         LEFT JOIN jobsites 
-        ON employees.jobsiteid = jobsites.jobsiteid;`,
+        ON employees.jobsiteid = jobsites.jobsiteid 
+        LIMIT :limit OFFSET :offset;`,
   },
 
   "mat. amounts": {
@@ -52,7 +54,8 @@ const tables = {
         ON storage_areas.storageareaid = stored_in.storageareaid
         JOIN jobsites
         ON jobsites.jobsiteid = storage_areas.jobsiteid
-        ORDER BY materials.name;`,
+        ORDER BY materials.name
+        LIMIT :limit OFFSET :offset;`,
   },
 };
 
