@@ -57,9 +57,7 @@ const Dashboard = () => {
     setIsLoading(true);
 
     const endpoint = new URL(table, API_URL);
-    console.log(endpoint.href);
     endpoint.search = params.toString();
-    console.log(params.toString());
 
     fetch(endpoint)
       .then((response) => response.json())
@@ -85,13 +83,8 @@ const Dashboard = () => {
       newTableToDisplay = e.target.value;
       table.current = e.target.value;
       params.set("table", "leadership");
-      console.log(e.target.value);
-      console.log(params.toString());
-      console.log("outside:" + newTableToDisplay);
 
       if (other.includes(newTableToDisplay)) {
-        console.log("inside True:" + newTableToDisplay);
-
         table.current = "other";
       }
     } else {
@@ -124,7 +117,6 @@ const Dashboard = () => {
   data. */
   const reloadDataContainer = (table) => {
     const dropdownValue = table;
-    console.log(dropdownValue);
     if (tableToDisplay === dropdownValue) {
       setReload(!reload);
     }
@@ -136,8 +128,8 @@ const Dashboard = () => {
   //Could probably place each method type within relevant sub-components (i.e <postForms />).
 
   const postMethod = (postBody, table) => {
-    console.log("post()");
-    console.log(JSON.stringify({ postBody, table }));
+    /* console.log("post()");
+    console.log(JSON.stringify({ postBody, table })); */
 
     const endpoint = new URL(table, API_URL);
 
@@ -158,8 +150,8 @@ const Dashboard = () => {
   };
 
   const deleteMethod = (deleteBody, table) => {
-    console.log("delete()");
-    console.log(deleteBody);
+    /* console.log("delete()");
+    console.log(deleteBody); */
 
     const endpoint = new URL(table, API_URL);
 
@@ -180,8 +172,8 @@ const Dashboard = () => {
   };
 
   const putMethod = (putBody, table, useEmpty) => {
-    console.log("put()");
-    console.log(JSON.stringify({ putBody, table, useEmpty }));
+    /* console.log("put()");
+    console.log(JSON.stringify({ putBody, table, useEmpty })); */
 
     const endpoint = new URL(table, API_URL);
 
