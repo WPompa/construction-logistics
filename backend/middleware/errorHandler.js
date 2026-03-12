@@ -20,7 +20,7 @@ const errorHandler = (err, req, res, next) => {
 
     return res.status(400).json({
       status: "Error",
-      message: err.message,
+      message: "Internal Sequelize Error", //err.message, //Prone to oversharing. Needs Rework.
       stack: undefined,
     });
   }

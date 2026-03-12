@@ -30,7 +30,9 @@ app.use(cors(corsOptions));
 
 app.use(dbConnection);
 
-app.use("/login", auth);
+//app.use("/login", auth); //Maybe auth before connecting to DB?
+const login = require("./routes/login.routes");
+app.use("/", login);
 
 ///// Routes /////
 const baseRoute = "/api/v1/";
