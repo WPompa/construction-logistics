@@ -14,32 +14,46 @@ const Login = ({ setUser }) => {
     e.preventDefault();
 
     //The below works as a simple login validation. Turned off for testing.
-    /* if (!login.username || !login.password) {
-      alert("Please fill out username and password.");
+    if (!login.username && !login.password) {
+      alert("Please fill out Username and Password.");
       return;
-    } */
+    } else if (!login.username) {
+      alert("Please fill out Username.");
+      return;
+    } else if (!login.password) {
+      alert("Please fill out Password.");
+      return;
+    }
 
-    /*Need another check here that compares to a hardcoded
+    /* Need another check here that compares to a hardcoded
     Admin login or compares to the logins in the database
     before setting the user below*/
-    /* fetch(url, {
+    //const token = localStorage.getItem("token")
+    fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({ login }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data) {
+        if (data.result) {
           setUser(login);
+          //localStorage.setItem("token", data.token)
           navigate("/Dashboard");
+        } else {
+          alert("Incorrect Login Information!");
         }
       })
-      .catch((err) => console.log(err)); */
+      .catch((err) =>
+        //localStorage.removeItem("token")
+        console.log(err),
+      );
 
-    /* setUser(login);
-    navigate("/Dashboard"); */
-    alert("Disabled Temporarily. Use Bypass.");
+    //alert("Disabled Temporarily. Use Bypass.");
   };
 
   const handleChange = (e) => {
