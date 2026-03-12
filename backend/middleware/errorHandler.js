@@ -14,7 +14,8 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.name.includes("Sequelize")) {
     console.error("Sequelize Error: ", err.name);
-    console.error("Errors: ", err?.errors);
+    console.error("Errors: ", err?.errors); //Look into this line. Just gives undefined.
+    console.error("Message: ", err?.parent.sqlMessage);
     console.error("Stack: ", err.stack);
 
     return res.status(400).json({
