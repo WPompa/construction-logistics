@@ -8,7 +8,13 @@ const CurrentUser = () => {
   return user ? (
     <span className="currentUser">
       {user?.username}
-      <button className="logout-btn" onClick={() => setUser(null)}>
+      <button
+        className="logout-btn"
+        onClick={() => {
+          setUser(null);
+          localStorage.removeItem("token");
+        }}
+      >
         Logout
       </button>
     </span>

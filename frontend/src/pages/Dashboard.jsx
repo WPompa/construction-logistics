@@ -52,14 +52,24 @@ const Dashboard = () => {
       console.log("No table for getData()");
     }
   }, [tableToDisplay, reload]);
+
   /////////////////////////////////////////////
+
   const getData = (table) => {
     setIsLoading(true);
+    const token = localStorage.getItem("token");
 
     const endpoint = new URL(table, API_URL);
     endpoint.search = params.toString();
+    console.log(token);
 
-    fetch(endpoint)
+    fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setData(data);

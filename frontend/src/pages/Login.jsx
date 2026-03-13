@@ -13,7 +13,6 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //The below works as a simple login validation. Turned off for testing.
     if (!login.username && !login.password) {
       alert("Please fill out Username and Password.");
       return;
@@ -25,15 +24,10 @@ const Login = ({ setUser }) => {
       return;
     }
 
-    /* Need another check here that compares to a hardcoded
-    Admin login or compares to the logins in the database
-    before setting the user below*/
-    //const token = localStorage.getItem("token")
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({ login }),
     })
@@ -41,17 +35,17 @@ const Login = ({ setUser }) => {
       .then((data) => {
         console.log(data);
         if (data.result) {
-          setUser(login);
-          //localStorage.setItem("token", data.token)
+          setUser(login.username);
+          localStorage.setItem("token", data.token);
           navigate("/Dashboard");
         } else {
+          localStorage.removeItem("token");
           alert("Incorrect Login Information!");
         }
       })
-      .catch((err) =>
-        //localStorage.removeItem("token")
-        console.log(err),
-      );
+      .catch((err) => {
+        console.log(err);
+      });
 
     //alert("Disabled Temporarily. Use Bypass.");
   };
