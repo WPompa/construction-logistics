@@ -11,7 +11,7 @@ const Login = ({ setUser }) => {
   const { user } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
 
     if (!login.username && !login.password) {
       alert("Please fill out Username and Password.");
@@ -98,8 +98,7 @@ const Login = ({ setUser }) => {
         type="button"
         className="btn"
         onClick={() => {
-          setUser({ username: "Guest" });
-          navigate("/Dashboard");
+          setLogin({ username: "Guest", password: "password" });
         }}
       >
         Bypass
