@@ -3,7 +3,7 @@ const { QueryTypes } = require("sequelize");
 
 const login = async (sequelize, username, password) => {
   const result = await sequelize.query(
-    `SELECT username, password FROM credentialss WHERE username = :username AND password = :password`,
+    `SELECT AccountID, Username, Password FROM credentials WHERE username = :username AND password = :password`,
     {
       replacements: { username, password },
       type: QueryTypes.SELECT,
@@ -11,10 +11,20 @@ const login = async (sequelize, username, password) => {
   );
 
   if (result.length !== 1) {
-    return { status: "Failure!", result: false };
+    return { status: "Failure!", result: false, token: null };
   }
 
-  return { status: "Success!", result: true };
+  const user = result[0];
+
+  const token = jwt.sign(
+    { AccountID: user.AccountID, username },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "30d",
+    },
+  );
+
+  return { status: "Success!", result: true, token };
 };
 
 module.exports = login;

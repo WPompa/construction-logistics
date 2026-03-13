@@ -30,30 +30,29 @@ app.use(cors(corsOptions));
 
 app.use(dbConnection);
 
-//app.use("/login", auth); //Maybe auth before connecting to DB?
-const login = require("./routes/login.routes");
-app.use("/", login);
-
 ///// Routes /////
 const baseRoute = "/api/v1/";
 
+const login = require("./routes/login.routes");
+app.use("/", login);
+
 const employees = require("./routes/employees.routes");
-app.use(baseRoute, employees);
+app.use(baseRoute, auth, employees);
 
 const materials = require("./routes/materials.routes");
-app.use(baseRoute, materials);
+app.use(baseRoute, auth, materials);
 
 const jobsites = require("./routes/jobsites.routes");
-app.use(baseRoute, jobsites);
+app.use(baseRoute, auth, jobsites);
 
 const storage_areas = require("./routes/storage_areas.routes");
-app.use(baseRoute, storage_areas);
+app.use(baseRoute, auth, storage_areas);
 
 const stored_in = require("./routes/stored_in.routes");
-app.use(baseRoute, stored_in);
+app.use(baseRoute, auth, stored_in);
 
 const other = require("./routes/other");
-app.use(baseRoute, other);
+app.use(baseRoute, auth, other);
 
 const notFound = require("./routes/notFound");
 app.use("/{*any}", notFound);

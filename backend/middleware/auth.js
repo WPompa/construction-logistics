@@ -1,27 +1,27 @@
 "use strict";
-const express = require("express");
-const router = express.Router();
+const jwt = require("jsonwebtoken");
+const { AppError } = require("../utils/AppError");
 
-router.post("/", (req, res) => {
-  const { username, password } = req.body.login;
-  const values = [{ username }, { password }]; // username : username123 for WHERE "username" = "username123"?
-  const sqlQuery = `SELECT username, password FROM credentials WHERE ? AND ?`;
-  console.log(values);
+const authentication = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-  connection.query(sqlQuery, values, (err, data) => {
-    if (!err && data[0]) {
-      console.log(data[0].username);
-      console.log(username);
-      if (username === data[0].username && password === data[0].password) {
-        return res.json(true);
-      }
-      return res.json(false);
-    } else if (err) {
-      console.log(err);
-      res.send(err);
-    }
-    return res.json(false);
-  });
-});
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new AppError("No Token Provided", 401);
+  }
 
-module.exports = router;
+  const token = authHeader.split(" ")[1];
+
+  try {
+    //decoded.username. decoded will have accessable properties.
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { AccountID, username } = decoded;
+
+    req.user = { AccountID, username };
+    next();
+  } catch (error) {
+    console.error(error.name);
+    throw new AppError("Not Authorized", 401);
+  }
+};
+
+module.exports = authentication;
