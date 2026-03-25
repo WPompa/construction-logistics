@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [reload, setReload] = useState(false);
   const [methodOption, setMethodOption] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", body: "" });
   const [isLoading, setIsLoading] = useState(false);
   let backgroundDivRef = useRef(false);
   let table = useRef("");
@@ -61,7 +62,6 @@ const Dashboard = () => {
 
     const endpoint = new URL(table, API_URL);
     endpoint.search = params.toString();
-    console.log(token);
 
     fetch(endpoint, {
       method: "GET",
@@ -72,11 +72,15 @@ const Dashboard = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data.status !== "Success!") {
+          throw data;
+        }
         setData(data);
         console.log(data); //remove later.
         setIsLoading(false);
       })
       .catch((err) => {
+        setModalContent({ title: err.status, body: err.message });
         setShowModal(true);
         setIsLoading(false);
         return console.log(err);
@@ -132,75 +136,47 @@ const Dashboard = () => {
     }
   };
 
-  //////////////////////////////////////////////////////////////////////////////////////////
-  //The .catch(err) should let users know they messed up something. Modal or other option?
-  //Am I missing more info for the headers or something else?
-  //Could probably place each method type within relevant sub-components (i.e <postForms />).
-
-  const postMethod = (postBody, table) => {
-    /* console.log("post()");
-    console.log(JSON.stringify({ postBody, table })); */
+  const httpFetchRequest = (body, table, method, useEmpty) => {
+    const token = localStorage.getItem("token");
 
     const endpoint = new URL(table, API_URL);
 
     fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ postBody }),
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(useEmpty ? { body, table, useEmpty } : { body }),
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data.status !== "Success!") {
+          throw data;
+        }
         reloadDataContainer(table);
         return console.log(data);
       })
       .catch((err) => {
         setShowModal(true);
+        setModalContent({ title: err.status, body: err.message });
         return console.log(err);
       });
+  };
+
+  //////////////////////////////////////////////////////////////////////////////////////////
+  //Could probably place each method type within relevant sub-components (i.e <postForms />).
+  //These individual methods will be removed.
+  const postMethod = (postBody, table) => {
+    httpFetchRequest(postBody, table, "POST");
   };
 
   const deleteMethod = (deleteBody, table) => {
-    /* console.log("delete()");
-    console.log(deleteBody); */
-
-    const endpoint = new URL(table, API_URL);
-
-    fetch(endpoint, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ deleteBody }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        reloadDataContainer(table);
-        return console.log(data);
-      })
-      .catch((err) => {
-        setShowModal(true);
-        return console.log(err);
-      });
+    httpFetchRequest(deleteBody, table, "DELETE");
   };
 
   const putMethod = (putBody, table, useEmpty) => {
-    /* console.log("put()");
-    console.log(JSON.stringify({ putBody, table, useEmpty })); */
-
-    const endpoint = new URL(table, API_URL);
-
-    fetch(endpoint, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ putBody, table, useEmpty }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        reloadDataContainer(table);
-        return console.log(data);
-      })
-      .catch((err) => {
-        setShowModal(true);
-        return console.log(err);
-      });
+    httpFetchRequest(putBody, table, "PUT", useEmpty);
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +256,13 @@ const Dashboard = () => {
       }}
     >
       <div className="dashboard-container">
-        {showModal && <ErrorModal setShowModal={setShowModal} />}
+        {showModal && (
+          <ErrorModal
+            setShowModal={setShowModal}
+            title={modalContent.title}
+            body={modalContent.body}
+          />
+        )}
         <div className="select-container dashboard-item">
           <button
             type="button"
