@@ -25,7 +25,8 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  console.log(JSON.stringify(err, null, 2));
+  console.log(err);
+  //console.log(JSON.stringify(err, null, 2));
 
   return res.status(500).json({
     status: "Error",
