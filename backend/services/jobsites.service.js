@@ -19,7 +19,7 @@ const getJobsites = async (JobsiteModel, currentPage, currentLimit) => {
   const { offset, limit, metadata } = getPagination(
     currentPage,
     currentLimit,
-    totalCount
+    totalCount,
   );
 
   const result = await JobsiteModel.findAll({
@@ -53,7 +53,7 @@ const createJobsite = async (JobsiteModel, JobsiteData) => {
       console.log(exists);
       throw new AppError(
         `Jobsite With ID "${JobsiteData.JobsiteID}" Already Exists!`,
-        200
+        200,
       );
     }
   }
@@ -73,8 +73,8 @@ const updateJobsites = async (JobsiteModel, JobsiteData, useEmpty) => {
 
   const primaryKeyValuesArr = processKeyValues(
     table.primaryKeys,
-    JobsiteModel,
-    true
+    JobsiteData,
+    true,
   );
 
   const options = setUpdateOptions(table.primaryKeys, primaryKeyValuesArr);

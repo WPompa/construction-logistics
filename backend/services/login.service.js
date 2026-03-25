@@ -17,7 +17,7 @@ const login = async (sequelize, username, password) => {
       { AccountID: -1, username },
       process.env.JWT_SECRET,
       {
-        expiresIn: "30d",
+        expiresIn: "1d",
       },
     );
 
@@ -34,7 +34,7 @@ const login = async (sequelize, username, password) => {
     { AccountID: user.AccountID, username },
     process.env.JWT_SECRET,
     {
-      expiresIn: "30d",
+      expiresIn: "1d",
     },
   );
 

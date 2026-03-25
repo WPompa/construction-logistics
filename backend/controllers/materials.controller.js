@@ -8,35 +8,35 @@ const getMaterials = asyncWrapper(async (req, res, next) => {
   const { result, metadata } = await service.getMaterials(
     materials,
     page,
-    limit
+    limit,
   );
 
   res.status(200).json({ status: "Success!", result, pagination: metadata });
 });
 
 const createMaterial = asyncWrapper(async (req, res, next) => {
-  const { postBody } = req.body;
+  const { body } = req.body;
   const { materials } = req.models;
 
-  const result = await service.createMaterial(materials, postBody);
+  const result = await service.createMaterial(materials, body);
 
   res.status(201).json({ status: "Success!", result });
 });
 
 const updateMaterials = asyncWrapper(async (req, res, next) => {
-  const { putBody, useEmpty } = req.body;
+  const { body, useEmpty } = req.body;
   const { materials } = req.models;
 
-  const result = await service.updateMaterials(materials, putBody, useEmpty);
+  const result = await service.updateMaterials(materials, body, useEmpty);
 
   res.status(200).json({ status: "Success!", result });
 });
 
 const deleteMaterials = asyncWrapper(async (req, res, next) => {
-  const { deleteBody } = req.body;
+  const { body } = req.body;
   const { materials } = req.models;
 
-  const result = await service.deleteMaterials(materials, deleteBody);
+  const result = await service.deleteMaterials(materials, body);
 
   res.status(200).json({ status: "Success!", result });
 });

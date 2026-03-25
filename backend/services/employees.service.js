@@ -19,7 +19,7 @@ const getEmployees = async (employeeModel, currentPage, currentLimit) => {
   const { offset, limit, metadata } = getPagination(
     currentPage,
     currentLimit,
-    totalCount
+    totalCount,
   );
 
   const result = await employeeModel.findAll({
@@ -60,7 +60,7 @@ const createEmployee = async (employeeModel, employeeData) => {
       console.log(exists);
       throw new AppError(
         `Employee With ID "${employeeData.EmpID}" Already Exists!`,
-        200
+        200,
       );
     }
   }
@@ -80,8 +80,8 @@ const updateEmployees = async (employeeModel, employeeData, useEmpty) => {
 
   const primaryKeyValuesArr = processKeyValues(
     table.primaryKeys,
-    employeeModel,
-    true
+    employeeData,
+    true,
   );
 
   const options = setUpdateOptions(table.primaryKeys, primaryKeyValuesArr);
@@ -100,7 +100,7 @@ const deleteEmployees = async (employeeModel, employeeData) => {
 
   const keyValuesArr = processKeyValues(
     Object.keys(employeeData),
-    employeeData
+    employeeData,
   );
 
   const options = setDeleteOptions(keyValuesArr);
