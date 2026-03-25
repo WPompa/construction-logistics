@@ -10,6 +10,13 @@ const Login = ({ setUser }) => {
   const url = import.meta.env.VITE_LOGIN_URL;
   const { user } = useContext(UserContext);
 
+  const bypass = () => {
+    localStorage.setItem("token", "Gu3$t");
+    setUser("Guest");
+
+    navigate("/Dashboard");
+  };
+
   const handleSubmit = async (e) => {
     e?.preventDefault();
 
@@ -33,7 +40,6 @@ const Login = ({ setUser }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.result) {
           setUser(login.username);
           localStorage.setItem("token", data.token);
@@ -94,13 +100,7 @@ const Login = ({ setUser }) => {
         Login
       </button>
 
-      <button
-        type="button"
-        className="btn"
-        onClick={() => {
-          setLogin({ username: "Guest", password: "password" });
-        }}
-      >
+      <button type="button" className="btn" onClick={bypass}>
         Bypass
       </button>
     </form>
