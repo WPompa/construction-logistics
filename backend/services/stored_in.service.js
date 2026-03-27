@@ -45,10 +45,10 @@ const createStored_In = async (stored_inModel, stored_inData) => {
 
   //If Primary key value is given, check if it is already in use.
   if (stored_inData?.StorageAreaID && stored_inData?.MaterialID) {
-    const exists = await stored_inModel.findByPk({
+    const exists = await stored_inModel.findOne({
       where: {
         StorageAreaID: stored_inData.StorageAreaID,
-        MaterialID: stored_inData?.MaterialID,
+        MaterialID: stored_inData.MaterialID,
       },
       raw: true,
     });
