@@ -10,36 +10,50 @@ const Login = ({ setUser }) => {
   const url = import.meta.env.VITE_LOGIN_URL;
   const { user } = useContext(UserContext);
 
+  const bypass = () => {
+    localStorage.setItem("token", "Gu3$t");
+    setUser("Guest");
+
+    navigate("/Dashboard");
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
 
-    //The below works as a simple login validation. Turned off for testing.
-    /* if (!login.username || !login.password) {
-      alert("Please fill out username and password.");
+    if (!login.username && !login.password) {
+      alert("Please fill out Username and Password.");
       return;
-    } */
+    } else if (!login.username) {
+      alert("Please fill out Username.");
+      return;
+    } else if (!login.password) {
+      alert("Please fill out Password.");
+      return;
+    }
 
-    /*Need another check here that compares to a hardcoded
-    Admin login or compares to the logins in the database
-    before setting the user below*/
-    /* fetch(url, {
+    fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ login }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        if (data) {
-          setUser(login);
+        if (data.result) {
+          setUser(login.username);
+          localStorage.setItem("token", data.token);
           navigate("/Dashboard");
+        } else {
+          localStorage.removeItem("token");
+          alert("Incorrect Login Information!");
         }
       })
-      .catch((err) => console.log(err)); */
+      .catch((err) => {
+        console.log(err);
+      });
 
-    /* setUser(login);
-    navigate("/Dashboard"); */
-    alert("Disabled Temporarily. Use Bypass.");
+    //alert("Disabled Temporarily. Use Bypass.");
   };
 
   const handleChange = (e) => {
@@ -86,14 +100,7 @@ const Login = ({ setUser }) => {
         Login
       </button>
 
-      <button
-        type="button"
-        className="btn"
-        onClick={() => {
-          setUser({ username: "Guest" });
-          navigate("/Dashboard");
-        }}
-      >
+      <button type="button" className="btn" onClick={bypass}>
         Bypass
       </button>
     </form>

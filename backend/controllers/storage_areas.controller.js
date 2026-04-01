@@ -8,40 +8,40 @@ const getStorage_Areas = asyncWrapper(async (req, res, next) => {
   const { result, metadata } = await service.getStorage_Areas(
     storage_areas,
     page,
-    limit
+    limit,
   );
 
   res.status(200).json({ status: "Success!", result, pagination: metadata });
 });
 
 const createStorage_Area = asyncWrapper(async (req, res, next) => {
-  const { postBody } = req.body;
+  const { body } = req.body;
   const { storage_areas } = req.models;
 
-  const result = await service.createStorage_Area(storage_areas, postBody);
+  const result = await service.createStorage_Area(storage_areas, body);
 
   //console.log(JSON.stringify(result));
   res.status(201).json({ status: "Success!", result });
 });
 
 const updateStorage_Areas = asyncWrapper(async (req, res, next) => {
-  const { putBody, useEmpty } = req.body;
+  const { body, useEmpty } = req.body;
   const { storage_areas } = req.models;
 
   const result = await service.updateStorage_Areas(
     storage_areas,
-    putBody,
-    useEmpty
+    body,
+    useEmpty,
   );
 
   res.status(200).json({ status: "Success!", result });
 });
 
 const deleteStorage_Areas = asyncWrapper(async (req, res, next) => {
-  const { deleteBody } = req.body;
+  const { body } = req.body;
   const { storage_areas } = req.models;
 
-  const result = await service.deleteStorage_Areas(storage_areas, deleteBody);
+  const result = await service.deleteStorage_Areas(storage_areas, body);
 
   res.status(200).json({ status: "Success!", result });
 });

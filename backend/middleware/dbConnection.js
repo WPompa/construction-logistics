@@ -1,4 +1,5 @@
 const connectToDB = require("../config/connect");
+const { AppError } = require("../utils/AppError");
 
 const dbConnection = async (req, res, next) => {
   if (!req.app.get("sequelize") || !req.app.get("models")) {
@@ -9,7 +10,7 @@ const dbConnection = async (req, res, next) => {
       req.app.set("models", models);
     } catch (error) {
       console.error("Connection Error In dbConnection.js: ", error);
-      return res.status(500).send("Cannot Connect To Database");
+      next(new AppError("Cannot Connect To Database", 500));
     }
   }
   req.sequelize = req.app.get("sequelize");

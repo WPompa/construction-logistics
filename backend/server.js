@@ -1,10 +1,13 @@
 "use strict";
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const dbConnection = require("./middleware/dbConnection");
 const auth = require("./middleware/auth");
 const { connectToDB, sequelize } = require("./config/connect");
-const app = express();
+const helmet = require("helmet");
+const { rateLimit } = require("express-rate-limit");
+
 require("dotenv").config();
 
 const allowedOrigins = [process.env.FRONTEND_URL, process.env.DEV_URL];
@@ -23,35 +26,50 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
 };
 
+//from express-rate-limit with a few changes.
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  limit: 50, // Limit each IP to 50 requests per `window` (here, per 10 minutes).
+  standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  ipv6Subnet: 56, // Set to 60 or 64 to be less aggressive, or 52 or 48 to be more aggressive
+  // store: ... , // Redis, Memcached, etc. See below.
+});
+
 ///// Middleware /////
 app.use(express.json());
+
+app.use(helmet());
+
+app.use(limiter);
 
 app.use(cors(corsOptions));
 
 app.use(dbConnection);
 
-app.use("/login", auth);
-
 ///// Routes /////
 const baseRoute = "/api/v1/";
 
+const login = require("./routes/login.routes");
+app.use("/", login);
+
 const employees = require("./routes/employees.routes");
-app.use(baseRoute, employees);
+app.use(baseRoute, auth, employees);
 
 const materials = require("./routes/materials.routes");
-app.use(baseRoute, materials);
+app.use(baseRoute, auth, materials);
 
 const jobsites = require("./routes/jobsites.routes");
-app.use(baseRoute, jobsites);
+app.use(baseRoute, auth, jobsites);
 
 const storage_areas = require("./routes/storage_areas.routes");
-app.use(baseRoute, storage_areas);
+app.use(baseRoute, auth, storage_areas);
 
 const stored_in = require("./routes/stored_in.routes");
-app.use(baseRoute, stored_in);
+app.use(baseRoute, auth, stored_in);
 
 const other = require("./routes/other");
-app.use(baseRoute, other);
+app.use(baseRoute, auth, other);
 
 const notFound = require("./routes/notFound");
 app.use("/{*any}", notFound);

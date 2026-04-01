@@ -8,35 +8,35 @@ const getStored_In = asyncWrapper(async (req, res, next) => {
   const { result, metadata } = await service.getStored_In(
     stored_in,
     page,
-    limit
+    limit,
   );
 
   res.status(200).json({ status: "Success!", result, pagination: metadata });
 });
 
 const createStored_In = asyncWrapper(async (req, res, next) => {
-  const { postBody } = req.body;
+  const { body } = req.body;
   const { stored_in } = req.models;
 
-  const result = await service.createStored_In(stored_in, postBody);
+  const result = await service.createStored_In(stored_in, body);
 
   res.status(201).json({ status: "Success!", result });
 });
 
 const updateStored_In = asyncWrapper(async (req, res, next) => {
-  const { putBody, useEmpty } = req.body;
+  const { body, useEmpty } = req.body;
   const { stored_in } = req.models;
 
-  const result = await service.updateStored_In(stored_in, putBody, useEmpty);
+  const result = await service.updateStored_In(stored_in, body, useEmpty);
 
   res.status(200).json({ status: "Success!", result });
 });
 
 const deleteStored_In = asyncWrapper(async (req, res, next) => {
-  const { deleteBody } = req.body;
+  const { body } = req.body;
   const { stored_in } = req.models;
 
-  const result = await service.deleteStored_In(stored_in, deleteBody);
+  const result = await service.deleteStored_In(stored_in, body);
 
   res.status(200).json({ status: "Success!", result });
 });

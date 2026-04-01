@@ -26,10 +26,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: {
-            msg: "Must have 2 - 64 characters.",
-            args: [1, 65],
+            msg: "Location must have 2 - 64 characters.",
+            args: [2, 64],
           },
-          isAlpha: true,
+          is: {
+            args: /^[a-z0-9\s.]+$/i,
+            msg: "Location can only contain letters, numbers, spaces, or periods.",
+          },
         },
       },
       JobsiteID: {
@@ -52,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "storage_areas",
       //timestamps: false,
-    }
+    },
   );
 
   return Storage_Area;

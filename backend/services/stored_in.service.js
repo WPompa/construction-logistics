@@ -19,7 +19,7 @@ const getStored_In = async (stored_inModel, currentPage, currentLimit) => {
   const { offset, limit, metadata } = getPagination(
     currentPage,
     currentLimit,
-    totalCount
+    totalCount,
   );
 
   const result = await stored_inModel.findAll({
@@ -45,10 +45,10 @@ const createStored_In = async (stored_inModel, stored_inData) => {
 
   //If Primary key value is given, check if it is already in use.
   if (stored_inData?.StorageAreaID && stored_inData?.MaterialID) {
-    const exists = await stored_inModel.findByPk({
+    const exists = await stored_inModel.findOne({
       where: {
         StorageAreaID: stored_inData.StorageAreaID,
-        MaterialID: stored_inData?.MaterialID,
+        MaterialID: stored_inData.MaterialID,
       },
       raw: true,
     });
@@ -57,7 +57,7 @@ const createStored_In = async (stored_inModel, stored_inData) => {
       console.log(exists);
       throw new AppError(
         `Stored In With IDs "${stored_inData.StorageAreaID}" & "${stored_inData.MaterialID}" Already Exists!`,
-        200
+        200,
       );
     }
   }
@@ -77,8 +77,8 @@ const updateStored_In = async (stored_inModel, stored_inData, useEmpty) => {
 
   const primaryKeyValuesArr = processKeyValues(
     table.primaryKeys,
-    stored_inModel,
-    true
+    stored_inData,
+    true,
   );
 
   const options = setUpdateOptions(table.primaryKeys, primaryKeyValuesArr);
@@ -97,7 +97,7 @@ const deleteStored_In = async (stored_inModel, stored_inData) => {
 
   const keyValuesArr = processKeyValues(
     Object.keys(stored_inData),
-    stored_inData
+    stored_inData,
   );
 
   const options = setDeleteOptions(keyValuesArr);

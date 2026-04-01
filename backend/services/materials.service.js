@@ -19,7 +19,7 @@ const getMaterials = async (materialModel, currentPage, currentLimit) => {
   const { offset, limit, metadata } = getPagination(
     currentPage,
     currentLimit,
-    totalCount
+    totalCount,
   );
 
   const result = await materialModel.findAll({
@@ -63,7 +63,7 @@ const createMaterial = async (materialModel, materialData) => {
       console.log(exists);
       throw new AppError(
         `Material With ID "${materialData.MaterialID}" Already Exists!`,
-        200
+        200,
       );
     }
   }
@@ -83,8 +83,8 @@ const updateMaterials = async (materialModel, materialData, useEmpty) => {
 
   const primaryKeyValuesArr = processKeyValues(
     table.primaryKeys,
-    materialModel,
-    true
+    materialData,
+    true,
   );
 
   const options = setUpdateOptions(table.primaryKeys, primaryKeyValuesArr);
@@ -103,7 +103,7 @@ const deleteMaterials = async (materialModel, materialData) => {
 
   const keyValuesArr = processKeyValues(
     Object.keys(materialData),
-    materialData
+    materialData,
   );
 
   const options = setDeleteOptions(keyValuesArr);

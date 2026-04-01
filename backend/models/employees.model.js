@@ -18,11 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: {
-            msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            msg: "First name must have 2 - 32 characters.",
+            args: [2, 32], //inclusive.
           },
-          isAlpha: {
-            msg: "First Name can only use alphabet characters",
+          is: {
+            args: /^[a-z\s.]+$/i,
+            msg: "First name can only use alphabet characters, spaces, or periods.",
           },
         },
       },
@@ -31,11 +32,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: {
-            msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            msg: "Last name must have 2 - 32 characters.",
+            args: [2, 32],
           },
-          isAlpha: {
-            msg: "Last Name can only use alphabet characters",
+          is: {
+            args: /^[a-z\s.]+$/i,
+            msg: "Last name can only use alphabet characters, spaces, or periods.",
           },
         },
       },
@@ -43,10 +45,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(32),
         validate: {
           len: {
-            msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            msg: "Title must have 2 - 32 characters.",
+            args: [2, 32],
           },
-          isAlphanumeric: true,
+          is: {
+            args: /^[a-z0-9\s.]+$/i,
+            msg: "Title can only contain letters, numbers, spaces, or periods.",
+          },
         },
       },
       SupervisorID: {
@@ -75,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "employees",
       //timestamps: false,
-    }
+    },
   );
   return Employee;
 };

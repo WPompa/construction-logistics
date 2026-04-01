@@ -17,10 +17,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: {
-            msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            msg: "Title must have 2 - 32 characters.",
+            args: [2, 32], //inclusive.
           },
-          isAlphanumeric: true,
+          is: {
+            args: /^[a-z\s.]+$/i,
+            msg: "Jobsite can only use alphabet characters, spaces, or periods.",
+          },
         },
       },
       /* JobsiteSupervisorID: {
@@ -34,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "jobsites",
       //timestamps: false,
-    }
+    },
   );
 
   return Jobsite;

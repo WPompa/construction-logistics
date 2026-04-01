@@ -18,9 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 64 characters.",
-            args: [1, 65], //Assuming exclusive.
+            args: [2, 64], //inclusive.
           },
-          isAlphanumeric: true,
+          is: {
+            args: /^[a-z\s.]+$/i,
+            msg: "Material name can only use alphabet characters, spaces, or periods.",
+          },
         },
       },
       MaterialType: {
@@ -29,9 +32,12 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 64 characters.",
-            args: [1, 65], //Assuming exclusive.
+            args: [2, 64],
           },
-          isAlpha: true,
+          is: {
+            args: /^[a-z\s.]+$/i,
+            msg: "Material type can only use alphabet characters, spaces, or periods.",
+          },
         },
       },
       Length: {
@@ -49,9 +55,12 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 64 characters.",
-            args: [1, 65], //Assuming exclusive.
+            args: [2, 64],
           },
-          isAlpha: true,
+          is: {
+            args: /^[a-z\s.]+$/i,
+            msg: "Supplier name can only use alphabet characters, spaces, or periods.",
+          },
         },
       },
       TotalAvailable: {
@@ -64,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "materials",
       //timestamps: false,
-    }
+    },
   );
 
   return Material;

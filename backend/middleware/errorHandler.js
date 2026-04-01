@@ -14,17 +14,19 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.name.includes("Sequelize")) {
     console.error("Sequelize Error: ", err.name);
-    console.error("Errors: ", err?.errors);
+    console.error("Errors: ", err?.errors); //Look into this line. Just gives undefined.
+    console.error("Message: ", err?.parent.sqlMessage);
     console.error("Stack: ", err.stack);
 
     return res.status(400).json({
       status: "Error",
-      message: err.message,
+      message: "Internal Sequelize Error", //err.message, //Prone to oversharing. Needs Rework.
       stack: undefined,
     });
   }
 
-  console.log(JSON.stringify(err, null, 2));
+  console.log(err);
+  //console.log(JSON.stringify(err, null, 2));
 
   return res.status(500).json({
     status: "Error",

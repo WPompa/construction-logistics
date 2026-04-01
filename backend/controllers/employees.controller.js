@@ -8,36 +8,36 @@ const getEmployees = asyncWrapper(async (req, res, next) => {
   const { result, metadata } = await service.getEmployees(
     employees,
     page,
-    limit
+    limit,
   );
 
   res.status(200).json({ status: "Success!", result, pagination: metadata });
 });
 
 const createEmployee = asyncWrapper(async (req, res, next) => {
-  const { postBody } = req.body;
+  const { body } = req.body;
   const { employees } = req.models;
 
-  const result = await service.createEmployee(employees, postBody);
+  const result = await service.createEmployee(employees, body);
 
   //console.log(JSON.stringify(result));
   res.status(201).json({ status: "Success!", result });
 });
 
 const updateEmployees = asyncWrapper(async (req, res, next) => {
-  const { putBody, useEmpty } = req.body;
+  const { body, useEmpty } = req.body;
   const { employees } = req.models;
 
-  const result = await service.updateEmployees(employees, putBody, useEmpty);
+  const result = await service.updateEmployees(employees, body, useEmpty);
 
   res.status(200).json({ status: "Success!", result });
 });
 
 const deleteEmployees = asyncWrapper(async (req, res, next) => {
-  const { deleteBody } = req.body;
+  const { body } = req.body;
   const { employees } = req.models;
 
-  const result = await service.deleteEmployees(employees, deleteBody);
+  const result = await service.deleteEmployees(employees, body);
 
   res.status(200).json({ status: "Success!", result });
 });

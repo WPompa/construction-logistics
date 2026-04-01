@@ -11,28 +11,28 @@ const getJobsites = asyncWrapper(async (req, res, next) => {
 });
 
 const createJobsite = asyncWrapper(async (req, res, next) => {
-  const { postBody } = req.body;
+  const { body } = req.body;
   const { jobsites } = req.models;
 
-  const result = await service.createJobsite(jobsites, postBody);
+  const result = await service.createJobsite(jobsites, body);
 
   res.status(201).json({ status: "Success!", result });
 });
 
 const updateJobsites = asyncWrapper(async (req, res, next) => {
-  const { putBody, useEmpty } = req.body;
+  const { body, useEmpty } = req.body;
   const { jobsites } = req.models;
 
-  const result = await service.updateJobsites(jobsites, putBody, useEmpty);
+  const result = await service.updateJobsites(jobsites, body, useEmpty);
 
   res.status(200).json({ status: "Success!", result });
 });
 
 const deleteJobsites = asyncWrapper(async (req, res, next) => {
-  const { deleteBody } = req.body;
+  const { body } = req.body;
   const { jobsites } = req.models;
 
-  const result = await service.deleteJobsites(jobsites, deleteBody);
+  const result = await service.deleteJobsites(jobsites, body);
 
   res.status(200).json({ status: "Success!", result });
 });

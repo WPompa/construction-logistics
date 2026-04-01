@@ -16,14 +16,14 @@ const table = {
 const getStorage_Areas = async (
   storage_areaModel,
   currentPage,
-  currentLimit
+  currentLimit,
 ) => {
   const totalCount = await storage_areaModel.count();
 
   const { offset, limit, metadata } = getPagination(
     currentPage,
     currentLimit,
-    totalCount
+    totalCount,
   );
 
   const result = await storage_areaModel.findAll({
@@ -62,14 +62,14 @@ const createStorage_Area = async (storage_areaModel, storage_areaData) => {
       storage_areaData.StorageAreaID,
       {
         raw: true,
-      }
+      },
     );
 
     if (exists) {
       console.log(exists);
       throw new AppError(
         `Storage Area With ID "${storage_areaData.StorageAreaID}" Already Exists!`,
-        200
+        200,
       );
     }
   }
@@ -83,7 +83,7 @@ const createStorage_Area = async (storage_areaModel, storage_areaData) => {
 const updateStorage_Areas = async (
   storage_areaModel,
   storage_areaData,
-  useEmpty
+  useEmpty,
 ) => {
   const required = ["StorageAreaID"];
 
@@ -93,8 +93,8 @@ const updateStorage_Areas = async (
 
   const primaryKeyValuesArr = processKeyValues(
     table.primaryKeys,
-    storage_areaModel,
-    true
+    storage_areaData,
+    true,
   );
 
   const options = setUpdateOptions(table.primaryKeys, primaryKeyValuesArr);
@@ -113,7 +113,7 @@ const deleteStorage_Areas = async (storage_areaModel, storage_areaData) => {
 
   const keyValuesArr = processKeyValues(
     Object.keys(storage_areaData),
-    storage_areaData
+    storage_areaData,
   );
 
   const options = setDeleteOptions(keyValuesArr);

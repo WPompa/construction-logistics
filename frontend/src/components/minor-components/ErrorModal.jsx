@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./css/error-modal.css";
 
-const ErrorModal = ({ setShowModal }) => {
+const ErrorModal = ({ setShowModal, title, body }) => {
   const [count, setCount] = useState(5);
 
   useEffect(() => {
@@ -21,8 +21,8 @@ const ErrorModal = ({ setShowModal }) => {
   return (
     <dialog className="modal-container">
       <div className="modal">
-        <h4>THERE WAS AN ERROR!</h4>
-        <p>Check browser console for more information.</p>
+        <h3>{title}</h3>
+        <p>{body}</p>
         <div>{count}</div>
         <div className="btn-container">
           <button className="confirm-btn" onClick={() => setShowModal(false)}>
