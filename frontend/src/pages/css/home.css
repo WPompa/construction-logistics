@@ -72,9 +72,3 @@
 .yellow {
   color: var(--yellow);
 }
-
-@media only screen and (max-width: 1280px) and (max-height: 1366px) and (orientation: portrait) {
-  .home {
-  width: 98vw;
-}
-}
