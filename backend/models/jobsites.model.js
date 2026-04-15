@@ -1,6 +1,4 @@
 "use strict";
-/* const { sequelize } = require("../database/connect"); 
-const { DataTypes } = require("sequelize");*/
 
 module.exports = (sequelize, DataTypes) => {
   const Jobsite = sequelize.define(
@@ -18,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Title must have 2 - 32 characters.",
-            args: [2, 32], //inclusive.
+            args: [2, 32],
           },
           is: {
             args: /^[a-z\s.]+$/i,

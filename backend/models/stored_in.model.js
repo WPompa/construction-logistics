@@ -1,6 +1,4 @@
 "use strict";
-/* const { sequelize } = require("../database/connect"); 
-const { DataTypes } = require("sequelize");*/
 
 //There might be errors in cases where a storage area or a material is completely wiped out or removed. Keep in mind.
 module.exports = (sequelize, DataTypes) => {
@@ -33,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "stored_in",
       //timestamps: false,
-    }
+    },
   );
 
   return Stored_In;

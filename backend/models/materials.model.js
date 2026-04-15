@@ -1,6 +1,4 @@
 "use strict";
-/* const { sequelize } = require("../database/connect"); 
-const { DataTypes } = require("sequelize");*/
 
 module.exports = (sequelize, DataTypes) => {
   const Material = sequelize.define(
@@ -18,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 64 characters.",
-            args: [2, 64], //inclusive.
+            args: [2, 64],
           },
           is: {
             args: /^[a-z\s.]+$/i,

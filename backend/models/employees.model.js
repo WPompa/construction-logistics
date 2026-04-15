@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     "employees",
     {
       EmpID: {
-        //Do I need validate:{} here?
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -19,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "First name must have 2 - 32 characters.",
-            args: [2, 32], //inclusive.
+            args: [2, 32],
           },
           is: {
             args: /^[a-z\s.]+$/i,
@@ -57,7 +56,6 @@ module.exports = (sequelize, DataTypes) => {
       SupervisorID: {
         type: DataTypes.INTEGER,
         validate: {
-          //Might not need, check later.
           isNumeric: true,
         },
         references: {
@@ -68,7 +66,6 @@ module.exports = (sequelize, DataTypes) => {
       JobsiteID: {
         type: DataTypes.INTEGER,
         validate: {
-          //Might not need, check later.
           isNumeric: true,
         },
         references: {
@@ -105,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            args: [1, 33], 
           },
           isAlpha: {
             msg: "First Name can only use alphabet characters",
@@ -118,7 +115,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            args: [1, 33], 
           },
           isAlpha: {
             msg: "Last Name can only use alphabet characters",
@@ -130,7 +127,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             msg: "Must have 2 - 32 characters.",
-            args: [1, 33], //Assuming exclusive.
+            args: [1, 33], 
           },
           isAlphanumeric: true,
         },

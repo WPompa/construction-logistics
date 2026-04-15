@@ -1,6 +1,4 @@
 "use strict";
-/* const { sequelize } = require("../database/connect"); 
-const { DataTypes } = require("sequelize");*/
 
 module.exports = (sequelize, DataTypes) => {
   const Storage_Area = sequelize.define(
