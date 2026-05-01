@@ -12,7 +12,7 @@ const Materials = ({
   Height,
   SupplierName,
   TotalAvailable,
-  TotalLost,
+  LostAmounts,
   img = NoMaterialImg,
 }) => {
   return (
@@ -64,9 +64,9 @@ const Materials = ({
           altClass={styles["totalAvailable"]}
         />
         <TopBottom
-          top={TotalLost}
+          top={LostAmounts}
           bottom={"TRASHED"}
-          altClass={styles["totalLost"]}
+          altClass={styles["LostAmounts"]}
         />
       </div>
     </div>

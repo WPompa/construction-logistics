@@ -23,7 +23,7 @@ const getMaterials = async (materialModel, currentPage, currentLimit) => {
   );
 
   const result = await materialModel.findAll({
-    attributes: [
+    /* attributes: [
       "MaterialID",
       "Name",
       ["MaterialType", "Mat. Type"],
@@ -33,7 +33,7 @@ const getMaterials = async (materialModel, currentPage, currentLimit) => {
       ["SupplierName", "Supplier"],
       ["TotalAvailable", "Available"],
       ["LostAmounts", "Trashed"],
-    ],
+    ], */
     offset,
     limit,
   });

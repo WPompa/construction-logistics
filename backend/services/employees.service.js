@@ -1,4 +1,6 @@
 const { AppError } = require("../utils/AppError");
+const { QueryTypes } = require("sequelize");
+const tables = require("../utils/RawQueries");
 const getPagination = require("../utils/paginationHelper");
 const {
   checkForRequiredValues,
@@ -13,8 +15,16 @@ const table = {
   primaryKeys: ["EmpID"],
 };
 
-const getEmployees = async (employeeModel, currentPage, currentLimit) => {
-  const totalCount = await employeeModel.count();
+const getEmployees = async (
+  sequelize,
+  employeeModel,
+  currentPage,
+  currentLimit,
+) => {
+  //const totalCount = await employeeModel.count();
+  const [totalCount] = await sequelize.query(tables[table.name].count, {
+    type: QueryTypes.SELECT,
+  });
 
   const { offset, limit, metadata } = getPagination(
     currentPage,
@@ -22,7 +32,7 @@ const getEmployees = async (employeeModel, currentPage, currentLimit) => {
     totalCount,
   );
 
-  const result = await employeeModel.findAll({
+  /* const result = await employeeModel.findAll({
     attributes: [
       "EmpID",
       ["Fname", "Forename"],
@@ -33,6 +43,10 @@ const getEmployees = async (employeeModel, currentPage, currentLimit) => {
     ],
     offset,
     limit,
+  }); */
+  const result = await sequelize.query(tables[table.name].query, {
+    replacements: { limit, offset },
+    type: QueryTypes.SELECT,
   });
 
   //If pagination works as intended this snippet might never be used.

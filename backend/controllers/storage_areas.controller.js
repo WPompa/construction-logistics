@@ -4,8 +4,10 @@ const asyncWrapper = require("../middleware/asyncWrapper"); //Try Catch wrapper
 const getStorage_Areas = asyncWrapper(async (req, res, next) => {
   const { page, limit } = req.query;
   const { storage_areas } = req.models;
+  const sequelize = req.sequelize;
 
   const { result, metadata } = await service.getStorage_Areas(
+    sequelize,
     storage_areas,
     page,
     limit,

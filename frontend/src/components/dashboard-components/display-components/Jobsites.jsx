@@ -5,7 +5,7 @@ import TopBottom from "../../minor-components/TopBottom";
 
 const Jobsites = ({
   JobsiteID,
-  JobsiteName,
+  Jobsite,
   Supervisor,
   SupervisorID,
   img = NoJobsiteImg,
@@ -30,7 +30,7 @@ const Jobsites = ({
 
       <div className={`grid-item ${styles["item-jobsite-super"]}`}>
         <TopBottom
-          top={JobsiteName}
+          top={Jobsite}
           bottom={"JOBSITE"}
           altClass={styles["jobsite-name"]}
         />

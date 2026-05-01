@@ -4,8 +4,10 @@ const asyncWrapper = require("../middleware/asyncWrapper"); //Try Catch wrapper
 const getEmployees = asyncWrapper(async (req, res, next) => {
   const { page, limit } = req.query;
   const { employees } = req.models;
+  const sequelize = req.sequelize;
 
   const { result, metadata } = await service.getEmployees(
+    sequelize,
     employees,
     page,
     limit,

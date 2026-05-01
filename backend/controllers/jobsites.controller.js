@@ -4,8 +4,14 @@ const asyncWrapper = require("../middleware/asyncWrapper"); //Try Catch wrapper
 const getJobsites = asyncWrapper(async (req, res, next) => {
   const { page, limit } = req.query;
   const { jobsites } = req.models;
+  const sequelize = req.sequelize;
 
-  const { result, metadata } = await service.getJobsites(jobsites, page, limit);
+  const { result, metadata } = await service.getJobsites(
+    sequelize,
+    jobsites,
+    page,
+    limit,
+  );
 
   res.status(200).json({ status: "Success!", result, pagination: metadata });
 });

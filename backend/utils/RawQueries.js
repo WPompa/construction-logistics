@@ -96,7 +96,7 @@ const tables = {
         LIMIT :limit OFFSET :offset;`,
   },
 
-  Jobsites: {
+  jobsites: {
     count: `SELECT COUNT(*) AS Count
         FROM (
           SELECT jobsites.JobsiteID, jobsites.JobsiteName AS Jobsite, 
@@ -113,7 +113,7 @@ const tables = {
         LIMIT :limit OFFSET :offset;`,
   },
 
-  Storages_Areas: {
+  storage_areas: {
     count: `SELECT COUNT(*) AS Count
         FROM (
           SELECT SA.StorageAreaID, SA.Location, Jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
@@ -128,7 +128,7 @@ const tables = {
         LIMIT :limit OFFSET :offset;`,
   },
 
-  Stored_In: {
+  stored_in: {
     count: `SELECT COUNT(*) AS Count
         FROM (
           SELECT SA.StorageAreaID,  SA.Location,  J.JobsiteID,  J.JobsiteName,  M.MaterialID,  M.Name,  M.MaterialType,  SI.Amount

@@ -96,6 +96,10 @@ const Dashboard = () => {
       backgroundDivRef.current = true;
       newTableToDisplay = e.target.value;
       table.current = e.target.value;
+
+      setData([]);
+      setIsLoading(true);
+
       params.set("table", "leadership");
 
       if (other.includes(newTableToDisplay)) {

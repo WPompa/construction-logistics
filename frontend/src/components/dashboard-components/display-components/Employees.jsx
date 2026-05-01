@@ -4,14 +4,14 @@ import NoPersonalImg from "../../../assets/NoPersonalImg.png";
 import TopBottom from "../../minor-components/TopBottom";
 
 const Employees = ({
-  EmpID = -1,
-  Fname = "",
-  Lname = "",
-  Title = "",
-  Supervisor = "",
-  SupervisorID = -1,
-  JobsiteName = "",
-  JobsiteID = -1,
+  EmpID,
+  Fname,
+  Lname,
+  Title,
+  Supervisor,
+  SupervisorID,
+  JobsiteName,
+  JobsiteID,
   img = NoPersonalImg,
 }) => {
   return (

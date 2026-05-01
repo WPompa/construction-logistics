@@ -4,8 +4,10 @@ const asyncWrapper = require("../middleware/asyncWrapper"); //Try Catch wrapper
 const getStored_In = asyncWrapper(async (req, res, next) => {
   const { page, limit } = req.query;
   const { stored_in } = req.models;
+  const sequelize = req.sequelize;
 
   const { result, metadata } = await service.getStored_In(
+    sequelize,
     stored_in,
     page,
     limit,

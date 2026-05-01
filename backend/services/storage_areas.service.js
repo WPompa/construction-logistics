@@ -1,4 +1,6 @@
 const { AppError } = require("../utils/AppError");
+const { QueryTypes } = require("sequelize");
+const tables = require("../utils/RawQueries");
 const getPagination = require("../utils/paginationHelper");
 const {
   checkForRequiredValues,
@@ -14,11 +16,15 @@ const table = {
 };
 
 const getStorage_Areas = async (
+  sequelize,
   storage_areaModel,
   currentPage,
   currentLimit,
 ) => {
-  const totalCount = await storage_areaModel.count();
+  //const totalCount = await storage_areaModel.count();
+  const [totalCount] = await sequelize.query(tables[table.name].count, {
+    type: QueryTypes.SELECT,
+  });
 
   const { offset, limit, metadata } = getPagination(
     currentPage,
@@ -26,7 +32,7 @@ const getStorage_Areas = async (
     totalCount,
   );
 
-  const result = await storage_areaModel.findAll({
+  /* const result = await storage_areaModel.findAll({
     attributes: [
       "StorageAreaID",
       ["Length", "Inner Length"],
@@ -39,6 +45,10 @@ const getStorage_Areas = async (
     ],
     offset,
     limit,
+  }); */
+  const result = await sequelize.query(tables[table.name].query, {
+    replacements: { limit, offset },
+    type: QueryTypes.SELECT,
   });
 
   //If pagination works as intended this snippet might never be used.
