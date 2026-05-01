@@ -1,0 +1,49 @@
+.storedin-container {
+  display: grid;
+  gap: 0;
+  grid-template-columns:
+    var(--img-grid-col) 2fr 0.15rem var(--img-grid-col)
+    2fr 0.15rem 1fr;
+}
+
+.item-location-jobsite,
+.item-name-type {
+  flex-direction: column;
+}
+
+.amount {
+  font-size: 1.4rem;
+}
+
+@media (max-width: 550px) {
+  .storedin-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .imgSArea {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .item-location-jobsite {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .imgMat {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .item-name-type {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .item-divider {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+  }
+
+  .item-amount {
+    grid-column: 1 / span 2;
+  }
+}

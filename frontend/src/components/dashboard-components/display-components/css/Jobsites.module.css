@@ -1,0 +1,30 @@
+.jobsites-container {
+  display: grid;
+  gap: 0;
+  grid-template-columns: var(--img-grid-col) 0.15rem 1fr;
+}
+
+.jobsite-name,
+.supervisor {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 550px) {
+  .jobsites-container {
+    grid-template-columns: 1fr;
+  }
+
+  .item-img-id {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .item-divider {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .item-jobsite-super {
+    grid-column: 1;
+    grid-row: 3;
+    flex-direction: column;
+  }
+}

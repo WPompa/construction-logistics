@@ -1,0 +1,60 @@
+.storageareas-container {
+  display: grid;
+  gap: 0;
+  grid-template-columns: var(--img-grid-col) 0.15rem 2fr 0.15rem 1fr;
+}
+
+.item-divider {
+  grid-row: span 2;
+}
+.item-img-id {
+  grid-column: 1;
+  grid-row: span 2;
+}
+.item-location-jobsite-container {
+  grid-column: 3;
+  grid-row: 1;
+}
+.item-l-w-h {
+  grid-column: 3;
+  grid-row: 2;
+}
+.item-stored {
+  grid-column: 5;
+  grid-row: span 2;
+}
+
+.item-stored {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  text-align: center;
+}
+
+@media (max-width: 550px) {
+  .storageareas-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .item-img-id {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .item-location-jobsite-container {
+    grid-column: 2;
+    grid-row: span 2;
+    flex-direction: column;
+  }
+  .item-l-w-h {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+  }
+  .item-divider {
+    grid-column: 1 / span 2;
+    grid-row: 4;
+  }
+  .item-stored {
+    grid-column: 1 / span 2;
+    grid-row: 5;
+    font-size: 1.5rem;
+  }
+}

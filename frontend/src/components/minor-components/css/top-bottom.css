@@ -1,0 +1,25 @@
+.topbottom-container {
+  display: inline-block;
+  vertical-align: middle;
+  box-sizing: border-box;
+  margin: 0 0.75rem;
+}
+
+.top,
+.bottom {
+  margin: 0;
+}
+
+.top {
+  font-size: 1.1em;
+}
+
+.bottom {
+  font-size: 0.65em;
+  font-weight: bold;
+  line-height: 0.75rem;
+  margin-bottom: 0.4rem;
+  border-top: 0.175rem solid rgba(0, 0, 0, 0.5);
+  padding-top: 0.1rem;
+  padding-bottom: 0.15rem;
+}

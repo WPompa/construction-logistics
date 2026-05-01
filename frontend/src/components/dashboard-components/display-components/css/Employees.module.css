@@ -1,0 +1,42 @@
+.employees-container {
+  display: grid;
+  gap: 0;
+  grid-template-columns: var(--img-grid-col) 0.15rem repeat(4, 1fr);
+}
+
+.name,
+.title,
+.jobsite,
+.supervisor {
+  font-size: 1.25rem;
+}
+
+/* ----- iPhone 13 - Portrait ----- */
+@media only screen and (max-width: 550px) {
+  .employees-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .item-img-id {
+    grid-column: 1 / span 2;
+  }
+
+  .item-divider {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+  }
+  .item-name {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .item-title {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .item-jobsite {
+    grid-column: 2;
+  }
+  .item-supervisor {
+    grid-column: 2;
+  }
+}

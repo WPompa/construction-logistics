@@ -1,0 +1,38 @@
+.leadership-container {
+  display: grid;
+  gap: 0;
+  grid-template-columns: var(--img-grid-col) 0.15rem repeat(3, 1fr);
+}
+
+.name,
+.title,
+.jobsite {
+  font-size: 1.25rem;
+}
+
+@media only screen and (max-width: 550px) {
+  .leadership-container {
+    grid-template-columns: 1fr;
+  }
+
+  .item-img-id {
+    grid-column: 1;
+  }
+
+  .item-divider {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .item-name {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .item-title {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .item-jobsite {
+    grid-column: 1;
+    grid-row: 5;
+  }
+}
