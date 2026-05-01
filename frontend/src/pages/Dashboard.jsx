@@ -48,6 +48,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (tableToDisplay) {
       getData(table.current);
+      setIsLoading(true);
       console.log("getData()");
     } else {
       console.log("No table for getData()");
@@ -57,7 +58,6 @@ const Dashboard = () => {
   /////////////////////////////////////////////
 
   const getData = (table) => {
-    setIsLoading(true);
     const token = localStorage.getItem("token");
 
     const endpoint = new URL(table, API_URL);

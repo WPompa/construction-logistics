@@ -1,64 +1,56 @@
 //
+import Employees from "./display-components/Employees";
+import Jobsites from "./display-components/Jobsites";
+import StorageAreas from "./display-components/StorageAreas";
+import Materials from "./display-components/Materials";
+import StoredIn from "./display-components/StoredIn";
+import Leadership from "./display-components/Leadership";
+
+const viewMap = {
+  employees: Employees,
+  leadership: Leadership,
+  materials: Materials,
+  jobsites: Jobsites,
+  storageareas: StorageAreas,
+  storedin: StoredIn,
+};
 
 const DisplayData = ({ tableToDisplay, data }) => {
-  //Could probably just use Object.keys()
-  const getColumnNames = () => {
-    if (!data.result?.length) {
-      return [];
+  const getID = (rowData) => {
+    switch (tableToDisplay) {
+      case "employees":
+        return rowData.EmpID;
+      case "leadership":
+        return rowData.EmpID;
+      case "materials":
+        return rowData.MaterialID;
+      case "jobsites":
+        return rowData.JobsiteID;
+      case "storageareas":
+        return rowData.StorageAreaID;
+      case "storedin":
+        return `${rowData.StorageAreaID} ${rowData.JobsiteID}`;
+      default:
+        throw new Error("No Obtainable Row ID!");
     }
-
-    const result = [];
-    for (const propertyName in data.result[0]) {
-      result.push(<th key={propertyName}> {propertyName} </th>);
-    }
-
-    return result;
   };
 
-  const getRowData = () => {
-    if (data.result?.length === 0 || data.result?.length === undefined) {
-      return [];
-    }
+  if (!tableToDisplay || !data) {
+    return <></>;
+  }
 
-    let propertyNames = Object.keys(data.result[0]);
-    const result = [];
+  const CurrentView = viewMap[tableToDisplay];
+  //Add toast if some how viewMap returns undefined?
 
-    for (let i = 0; i < data.result.length; i++) {
-      result.push([]);
-
-      for (let j = 0; j < propertyNames.length; j++) {
-        result[i].push(
-          <td key={"row " + i + " prop: " + propertyNames[j]}>
-            {data.result[i][propertyNames[j]]}
-          </td>
-        );
-      }
-    }
-
-    return result;
-  };
-
-  if (!tableToDisplay) return <></>;
-
-  //getRowData should not use index i for key prop. Fix, then remove comment.
-  return (
-    <table>
-      <thead>
-        <tr>{getColumnNames()}</tr>
-      </thead>
-      <tbody>
-        {getRowData().map((RowData, i) => (
-          <tr
-            key={i}
-            className="table-item"
-            onClick={() => alert("Click! (future feature)")}
-          >
-            {RowData}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+  if (CurrentView && data.result && data.status == "Success!") {
+    return (
+      <>
+        {data.result.map((rowData) => {
+          return <CurrentView key={getID(rowData)} {...rowData} />;
+        })}
+      </>
+    );
+  }
 };
 
 export default DisplayData;

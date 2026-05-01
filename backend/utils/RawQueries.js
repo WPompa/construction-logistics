@@ -2,16 +2,16 @@ const tables = {
   leadership: {
     count: `SELECT COUNT(*) AS Count
         FROM ( SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, ' ', emp1.lname) AS Name, emp1.title AS Title, emp1.JobsiteID AS JobsiteID, JobsiteName
-        FROM employees as emp1
-        JOIN employees as emp2
+        FROM employees AS emp1
+        JOIN employees AS emp2
         ON emp2.supervisorid = emp1.empid
         JOIN Jobsites
         ON emp1.JobsiteID = Jobsites.JobsiteID
         ORDER BY emp1.empid ASC
         ) AS Result;`,
     query: `SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, ' ', emp1.lname) AS Name, emp1.title AS Title, emp1.JobsiteID AS JobsiteID, JobsiteName
-        FROM employees as emp1
-        JOIN employees as emp2
+        FROM employees AS emp1
+        JOIN employees AS emp2
         ON emp2.supervisorid = emp1.empid
         JOIN Jobsites
         ON emp1.JobsiteID = Jobsites.JobsiteID
