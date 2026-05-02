@@ -1,6 +1,6 @@
 /* ----- Home -----*/
 .home {
-  width: 69rem;
+  width: 100%;
   margin: 0 auto;
   --blue: #3f48cc;
   --red: #ec1c24;
@@ -43,8 +43,8 @@
 }
 
 .img-container {
-  max-width: 25rem;
-  max-height: 25rem;
+  max-width: 400px;
+  max-height: 400px;
   margin: 1rem auto;
 }
 .img-container img {
@@ -73,8 +73,8 @@
   color: var(--yellow);
 }
 
-@media only screen and (max-width: 1280px) and (max-height: 1366px) and (orientation: portrait) {
+@media only screen and (max-width: 550px) {
   .home {
-  width: 98vw;
-}
+    width: 95%;
+  }
 }

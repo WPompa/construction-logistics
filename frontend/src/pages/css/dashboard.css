@@ -5,7 +5,7 @@
   box-sizing: border-box;
   vertical-align: top;
   background: var(--bg-alt);
-  width: 60rem;
+  width: 80%;
   margin: 0.75rem auto;
   padding: 0.25rem;
   box-shadow: var(--lightShadow);
@@ -16,6 +16,20 @@
   min-height: 5rem;
   padding: 0 0.25rem;
   border-left: var(--accent) 0.125rem solid;
+}
+
+.pagination-info {
+  font-size: 0.85rem;
+  color: rgb(139, 139, 139);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .dashboard-form-container {
@@ -141,48 +155,13 @@
   overflow-x: hidden;
   background-image: linear-gradient(to bottom, blue, indigo);
   border: 0.25rem solid var(--bg-alt);
-}
-.dashboard-data-container table {
-  margin: 0.25rem auto;
-  border-collapse: collapse;
-  background-color: rgb(0, 94, 255);
-  box-shadow: 0 0 0.25rem 0.25rem rgba(0, 0, 0, 0.45);
-}
-.dashboard-data-container td,
-th {
-  color: white;
-  padding: 0.125rem 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.6);
-}
-.dashboard-data-container th {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  font-size: 1.125rem;
-  background-color: rgb(0, 94, 255);
+  transition: all 0.3s ease;
 }
 
-.table-item:hover {
-  cursor: pointer;
-  background-color: rgb(160, 160, 0);
-}
-
-@keyframes flipflop {
-  0% {
-    background-color: rgb(160, 160, 0);
-  }
-  60% {
-    background-color: rgb(0, 94, 255);
-  }
-  100% {
-    background-color: rgb(160, 160, 0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .dashboard-data-container table {
-    animation: flipflo infinite 3s ease-in;
-  }
+.display-message {
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .background-div {
@@ -224,9 +203,9 @@ th {
   font-size: 1.25rem;
 }
 
-@media only screen and (max-width: 1280px) and (orientation: portrait) {
+@media only screen and (max-width: 1000px) {
   .dashboard-item {
-    width: 98vw;
+    width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
   }
