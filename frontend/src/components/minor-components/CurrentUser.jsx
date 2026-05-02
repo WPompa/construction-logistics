@@ -6,8 +6,7 @@ const CurrentUser = () => {
   const { user, setUser } = useContext(UserContext);
 
   return user ? (
-    <span className="currentUser">
-      {user?.username}
+    <div className="currentUser">
       <button
         className="logout-btn"
         onClick={() => {
@@ -17,7 +16,9 @@ const CurrentUser = () => {
       >
         Logout
       </button>
-    </span>
+
+      <span className="username">{user?.username}</span>
+    </div>
   ) : (
     <></>
   );

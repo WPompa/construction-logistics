@@ -1,0 +1,18 @@
+/* --- Footer --- */
+footer {
+  font-size: small;
+  width: 95%;
+  max-width: var(--max-width);
+  padding: 1.5rem;
+  margin: auto auto 1rem; /* "auto" top margin pushes footer to bottom of flex root */
+  background-color: var(--bg-alt);
+  border-left: var(--accent) 0.125rem solid;
+  box-shadow: var(--lightShadow);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 550px) {
+  footer {
+    width: 98%;
+  }
+}

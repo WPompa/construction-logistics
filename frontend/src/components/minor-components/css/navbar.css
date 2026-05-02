@@ -1,0 +1,177 @@
+/* --- Navbar --- */
+.navbar {
+  position: relative;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  margin: 0.25rem auto 0.5rem;
+  width: 95%;
+  min-width: var(--min-width);
+  max-width: var(--max-width);
+  background-color: var(--bg-alt);
+  border-top: var(--accent) 0.125rem solid;
+  border-left: var(--accent) 0.125rem solid;
+  box-shadow: var(--lightShadow);
+}
+.navbar a {
+  display: inline-block;
+  background-color: var(--bg);
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  margin: 0.25em;
+  transition: border-color 0.25s;
+}
+
+.navbar a:hover {
+  border-color: var(--hover);
+}
+
+.navlinks {
+  display: inline-block;
+  margin: auto;
+}
+
+.nav-user {
+  display: inline-block;
+  margin: auto;
+}
+
+.active {
+  color: var(--hover);
+}
+
+/* --- Overlay Styles --- */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 998;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 1.25rem;
+}
+
+/* The Hamburger Icon */
+.hamburger {
+  display: block;
+  position: relative;
+  background: var(--accent);
+  height: 3px;
+  width: 2.5rem;
+  transition: background 0.3s;
+}
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  position: absolute;
+  background: var(--accent);
+  height: 3px;
+  width: 100%;
+  left: 0;
+  transition: transform 0.3s;
+}
+.hamburger::before {
+  top: -8px;
+}
+.hamburger::after {
+  bottom: -8px;
+}
+
+/* Hamburger Animation to 'X' */
+.hamburger.open {
+  background: transparent;
+}
+.hamburger.open::before {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.open::after {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 550px) {
+  .navbar {
+    width: 98%;
+
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap; /* Allows menu to drop below the bar */
+  }
+
+  .nav-toggle {
+    display: block;
+    order: 1;
+  }
+
+  /* Add username/name top right later on. */
+  .navbar > :last-child {
+    order: 2;
+  }
+
+  .navlinks {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    order: 3;
+    background-color: var(--bg-alt);
+    padding-bottom: 1rem;
+  }
+
+  .navlinks.nav-open {
+    display: flex;
+    animation: slideDown 0.3s ease-out;
+  }
+  /* Prevent the body from scrolling when menu is open */
+  /* Note: You can toggle a class on the <body> tag in React for this */
+  .navlinks.nav-open {
+    z-index: 1000;
+  }
+
+  .navbar a {
+    display: block;
+    margin: 0.5rem 1rem;
+    text-align: center;
+  }
+
+  .nav-user {
+    display: block;
+    margin: 0;
+  }
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
