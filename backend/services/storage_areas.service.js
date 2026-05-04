@@ -22,7 +22,7 @@ const getStorage_Areas = async (
   currentLimit,
 ) => {
   //const totalCount = await storage_areaModel.count();
-  const [totalCount] = await sequelize.query(tables[table.name].count, {
+  [{ Count: totalCount }] = await sequelize.query(tables[table.name].count, {
     type: QueryTypes.SELECT,
   });
 

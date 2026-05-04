@@ -1,4 +1,4 @@
-const getPagination = (page = 1, limit = 5, totalCount = 0) => {
+const getPagination = (page = 1, limit = 10, totalCount = 0) => {
   const currentPage = Math.max(1, Number(page));
   const currentLimit = Math.max(1, Number(limit));
 

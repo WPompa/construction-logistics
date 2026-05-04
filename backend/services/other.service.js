@@ -5,14 +5,14 @@ const tables = require("../utils/RawQueries");
 
 const getOther = async (sequelize, tableName, currentPage, currentLimit) => {
   //Will return [ { Count: <number> } ]
-  const [total] = await sequelize.query(tables[tableName].count, {
+  [{ Count: totalCount }] = await sequelize.query(tables[tableName].count, {
     type: QueryTypes.SELECT,
   });
 
   const { offset, limit, metadata } = getPagination(
     currentPage,
     currentLimit,
-    total.Count
+    totalCount,
   );
 
   const result = await sequelize.query(tables[tableName].query, {

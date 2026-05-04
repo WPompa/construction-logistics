@@ -22,7 +22,7 @@ const getEmployees = async (
   currentLimit,
 ) => {
   //const totalCount = await employeeModel.count();
-  const [totalCount] = await sequelize.query(tables[table.name].count, {
+  [{ Count: totalCount }] = await sequelize.query(tables[table.name].count, {
     type: QueryTypes.SELECT,
   });
 

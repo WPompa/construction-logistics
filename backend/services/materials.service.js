@@ -15,6 +15,7 @@ const table = {
 
 const getMaterials = async (materialModel, currentPage, currentLimit) => {
   const totalCount = await materialModel.count();
+  console.log(totalCount);
 
   const { offset, limit, metadata } = getPagination(
     currentPage,

@@ -22,7 +22,7 @@ const getStored_In = async (
   currentLimit,
 ) => {
   //const totalCount = await stored_inModel.count();
-  const [totalCount] = await sequelize.query(tables[table.name].count, {
+  [{ Count: totalCount }] = await sequelize.query(tables[table.name].count, {
     type: QueryTypes.SELECT,
   });
 
