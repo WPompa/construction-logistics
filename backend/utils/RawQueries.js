@@ -117,12 +117,12 @@ const tables = {
     count: `SELECT COUNT(*) AS Count
         FROM (
           SELECT SA.StorageAreaID, SA.Location, jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
-          FROM Storage_Areas AS SA
+          FROM storage_areas AS SA
           LEFT JOIN jobsites ON SA.JobsiteID = jobsites.JobsiteID
           ORDER BY SA.JobsiteID ASC
         ) AS Result;`,
     query: `SELECT SA.StorageAreaID, SA.Location, jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
-        FROM Storage_Areas AS SA
+        FROM storage_areas AS SA
         LEFT JOIN jobsites ON SA.JobsiteID = jobsites.JobsiteID
         ORDER BY SA.JobsiteID ASC
         LIMIT :limit OFFSET :offset;`,
@@ -132,16 +132,16 @@ const tables = {
     count: `SELECT COUNT(*) AS Count
         FROM (
           SELECT SA.StorageAreaID,  SA.Location,  J.JobsiteID,  J.JobsiteName,  M.MaterialID,  M.Name,  M.MaterialType,  SI.Amount
-          FROM Stored_In SI
-          JOIN Storage_Areas SA ON SI.StorageAreaID = SA.StorageAreaID
-          JOIN Materials M ON SI.MaterialID = M.MaterialID
+          FROM stored_in SI
+          JOIN storage_areas SA ON SI.StorageAreaID = SA.StorageAreaID
+          JOIN materials M ON SI.MaterialID = M.MaterialID
           JOIN jobsites J ON SA.JobsiteID = J.JobsiteID
           ORDER BY SA.JobsiteID ASC
         ) AS Result;`,
     query: `SELECT SA.StorageAreaID, SA.Location, J.JobsiteID, J.JobsiteName, M.MaterialID, M.Name, M.MaterialType, SI.Amount
-         FROM Stored_In SI
-         JOIN Storage_Areas SA ON SI.StorageAreaID = SA.StorageAreaID
-         JOIN Materials M ON SI.MaterialID = M.MaterialID
+         FROM stored_in SI
+         JOIN storage_areas SA ON SI.StorageAreaID = SA.StorageAreaID
+         JOIN materials M ON SI.MaterialID = M.MaterialID
          JOIN jobsites J ON SA.JobsiteID = J.JobsiteID
          ORDER BY SA.JobsiteID ASC
          LIMIT :limit OFFSET :offset;`,
