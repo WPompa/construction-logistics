@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { UserContext } from "../../App";
 import "./css/current-user.css";
 
-const CurrentUser = () => {
+const CurrentUser = ({ closeMenu }) => {
   const { user, setUser } = useContext(UserContext);
 
   return user ? (
@@ -12,6 +12,7 @@ const CurrentUser = () => {
         onClick={() => {
           setUser(null);
           localStorage.removeItem("token");
+          closeMenu();
         }}
       >
         Logout

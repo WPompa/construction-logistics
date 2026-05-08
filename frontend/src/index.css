@@ -8,10 +8,12 @@
   --accent: #2176ff;
   --alt-color1: #1a1a1a;
   --alt-color2: #0a0a23;
-  --alt-color3: #242424;
+  --alt-color3: #005eff;
   --alt-color3: #ddd8b8;
   --bg: #1a1a1a;
   --bg-alt: #242424;
+  --bg-alt-glass: rgba(36, 36, 36, 0.2);
+  --bg-alt-glass-hover: rgba(150, 150, 150, 0.25);
 
   /* Text Colors */
   --text: #ffffff;
@@ -44,6 +46,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -103,7 +109,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--primary); /* Changed to alt for contrast */
+  background-color: var(--primary);
   color: var(--text);
   cursor: pointer;
   transition: all 0.25s;
@@ -136,8 +142,7 @@ select:hover {
 /* ============================================================
     RESPONSIVE BREAKPOINTS
    ============================================================ */
-
-/* Tablet & Mobile (Standardized from iPhone 13 query) */
+/* Tablet & Mobile */
 @media screen and (max-width: 1024px) {
   body {
     line-height: 1.6;
@@ -148,7 +153,7 @@ select:hover {
   }
 }
 
-/* Strictly Mobile */
+/* Mobile */
 @media screen and (max-width: 390px) {
   h1 {
     font-size: 1.8rem;

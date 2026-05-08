@@ -12,14 +12,10 @@ const Navbar = () => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      // This prevents the page from jumping horizontally when the scrollbar disappears
-      /* document.body.style.paddingRight = "0px"; */
     } else {
       document.body.style.overflow = "unset";
-      /* document.body.style.paddingRight = "0px"; */
     }
 
-    // Cleanup function in case component unmounts while open
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -37,6 +33,7 @@ const Navbar = () => {
           className="nav-toggle"
           onClick={toggleMenu}
           aria-label="Toggle navigation"
+          aria-expanded={isOpen}
         >
           <span className={`hamburger ${isOpen ? "open" : ""}`}></span>
         </button>
@@ -44,7 +41,7 @@ const Navbar = () => {
         <div className={`navlinks ${isOpen ? "nav-open" : ""}`}>
           <NavLink
             to="/"
-            onClick={() => setIsOpen(false)}
+            onClick={() => closeMenu()}
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Home
@@ -52,23 +49,25 @@ const Navbar = () => {
 
           <NavLink
             to="/Dashboard"
-            onClick={() => setIsOpen(false)}
+            onClick={() => closeMenu()}
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Dashboard
           </NavLink>
 
-          {user ? (
-            <CurrentUser />
-          ) : (
+          {!user && (
             <NavLink
               to="/Login"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeMenu()}
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               Login
             </NavLink>
           )}
+        </div>
+
+        <div className={`user-container ${isOpen ? "nav-open" : ""}`}>
+          {user && <CurrentUser closeMenu={closeMenu} />}
         </div>
       </nav>
     </>
