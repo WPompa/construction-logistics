@@ -8,31 +8,37 @@ function FormButtons({
   setHTTPBody,
   httpMethod,
   useEmpty,
+  validate,
 }) {
   const { setMethodOption } = useContext(DashboardContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validate && !validate()) {
+      return;
+    }
+
+    useEmpty
+      ? httpMethod(httpBody, chosenTable, useEmpty)
+      : httpMethod(httpBody, chosenTable);
+
+    setHTTPBody({}); //dont forget to clear error state
+  };
+
+  const closeForm = () => {
+    setMethodOption("");
+    setChosenTable("");
+    setHTTPBody({});
+  };
+
   return (
     <>
-      <button
-        type="button"
-        onClick={() => {
-          setMethodOption("");
-          setChosenTable("");
-          setHTTPBody({});
-        }}
-      >
+      <button type="button" onClick={closeForm}>
         Back
       </button>
 
-      <button
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          useEmpty
-            ? httpMethod(httpBody, chosenTable, useEmpty)
-            : httpMethod(httpBody, chosenTable);
-          setHTTPBody({});
-        }}
-      >
+      <button type="submit" onClick={handleSubmit}>
         Submit
       </button>
     </>
