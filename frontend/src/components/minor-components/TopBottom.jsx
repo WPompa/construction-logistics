@@ -21,5 +21,3 @@ const TopBottom = ({ top, bottom, altClass, tooltip = "", ...props }) => {
 };
 
 export default TopBottom;
-{
-}

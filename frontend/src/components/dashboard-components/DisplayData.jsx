@@ -17,21 +17,19 @@ const viewMap = {
 
 const DisplayData = ({ tableToDisplay, data }) => {
   const getID = (rowData) => {
-    const fallback = Math.random();
-
     switch (tableToDisplay) {
       case "employees":
-        return `employees-${rowData.EmpID || fallback}`;
+        return `employees-${rowData.EmpID || Math.random()}`;
       case "leadership":
-        return `leadership-${rowData.EmpID || fallback}`;
+        return `leadership-${rowData.EmpID || Math.random()}`;
       case "materials":
-        return `materials-${rowData.MaterialID || fallback}`;
+        return `materials-${rowData.MaterialID || Math.random()}`;
       case "jobsites":
-        return `jobsites-${rowData.JobsiteID || fallback}`;
+        return `jobsites-${rowData.JobsiteID || Math.random()}`;
       case "storageareas":
-        return `storageareas-${rowData.StorageAreaID || fallback}`;
+        return `storageareas-${rowData.StorageAreaID || Math.random()}`;
       case "storedin":
-        return `${rowData.StorageAreaID || fallback}-${rowData.JobsiteID || fallback}-${rowData.MaterialID || fallback}`;
+        return `${rowData.StorageAreaID || Math.random()}-${rowData.JobsiteID || Math.random()}-${rowData.MaterialID || Math.random()}`;
       default:
         throw new Error("No Obtainable Row ID!");
     }
@@ -46,9 +44,8 @@ const DisplayData = ({ tableToDisplay, data }) => {
   }
 
   const CurrentView = viewMap[tableToDisplay];
-  //Add toast if some how viewMap returns undefined?
 
-  if (CurrentView && data.status == "Success!") {
+  if (CurrentView && data.status === "Success!") {
     if (data.result.length === 0) {
       return (
         <div className="display-message">

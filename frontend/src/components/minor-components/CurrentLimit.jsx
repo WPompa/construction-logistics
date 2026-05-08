@@ -1,10 +1,13 @@
 import "./css/current-limit.css";
 
-const CurrentLimit = (props) => {
+const CurrentLimit = ({ value, function: updateParams }) => {
   const handleChange = (e) => {
-    props.value.current = Number(e.target.value);
+    const newLimit = Number(e.target.value);
 
-    props.function("limit", props.value.current);
+    updateParams({
+      limit: newLimit,
+      page: 1,
+    });
   };
 
   return (
@@ -13,7 +16,7 @@ const CurrentLimit = (props) => {
       <select
         name="CurrentLimit"
         id="CurrentLimit"
-        defaultValue={10}
+        value={value}
         onChange={handleChange}
       >
         <option value={5}>5</option>

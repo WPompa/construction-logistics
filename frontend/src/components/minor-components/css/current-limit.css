@@ -1,13 +1,21 @@
 .select-current-limit {
-  display: inline-block;
-  width: 12%;
-  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 120px;
 }
 
-.select-current-limit label {
-  font-size: 0.75rem;
+.select-current-limit label,
+.CurrentLimit {
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
-.select-current-limit input {
-  width: 2rem;
+.select-current-limit select {
+  height: auto;
+  font-size: 0.85rem;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
 }
