@@ -3,16 +3,18 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { UserContext } from "../App";
 import cog from "../assets/SVG/cog.svg";
 import "./css/login.css";
+import { api } from "../services/API-Service";
 
 const Login = ({ setUser }) => {
   const [login, setLogin] = useState({ username: "", password: "" });
-  const navigate = useNavigate();
-  const url = import.meta.env.VITE_LOGIN_URL;
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const bypass = () => {
     localStorage.setItem("token", "Gu3$t");
-    setUser("Guest");
+    setUser({ username: "Guest" });
 
     navigate("/Dashboard");
   };
@@ -21,45 +23,43 @@ const Login = ({ setUser }) => {
     e?.preventDefault();
 
     if (!login.username && !login.password) {
-      alert("Please fill out Username and Password.");
+      setError("Please fill out Username and Password.");
       return;
     } else if (!login.username) {
-      alert("Please fill out Username.");
+      setError("Please fill out Username.");
       return;
     } else if (!login.password) {
-      alert("Please fill out Password.");
+      setError("Please fill out Password.");
       return;
     }
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ login }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          setUser(login.username);
-          localStorage.setItem("token", data.token);
-          navigate("/Dashboard");
-        } else {
-          localStorage.removeItem("token");
-          alert("Incorrect Login Information!");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setIsLoading(true);
 
-    //alert("Disabled Temporarily. Use Bypass.");
+    try {
+      const response = await api.post("login", { login });
+      if (response.result) {
+        localStorage.setItem("token", response.token);
+        setUser({ username: login.username });
+        navigate("/Dashboard");
+      } else {
+        localStorage.removeItem("token");
+        setError("Invalid username or password.");
+      }
+    } catch (error) {
+      setError(`${error?.message || "Unknown Error."}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
 
-    setLogin({ ...login, [id]: value });
+    if (error) {
+      setError("");
+    }
+
+    setLogin((prev) => ({ ...prev, [id]: value }));
   };
 
   if (user?.username) {
@@ -67,11 +67,23 @@ const Login = ({ setUser }) => {
   }
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit} noValidate>
       <h2>LOGIN</h2>
 
       <div className="login-image">
-        <img src={cog} alt="cog" className="logo" />
+        <img
+          src={cog}
+          alt="cog"
+          className={`logo ${isLoading ? "spin-fast" : ""}`}
+        />
+      </div>
+
+      <div className="error-container" role="alert">
+        {error && (
+          <p id="login-error" className="error-text">
+            {error}
+          </p>
+        )}
       </div>
 
       <label htmlFor="username" className="form-label">
@@ -80,8 +92,12 @@ const Login = ({ setUser }) => {
           type="text"
           className="form-input"
           id="username"
+          autoComplete="username"
+          aria-required="true"
+          aria-describedby={error ? "login-error" : undefined}
           value={login.username}
           onChange={handleChange}
+          disabled={isLoading}
         />
       </label>
 
@@ -91,17 +107,26 @@ const Login = ({ setUser }) => {
           type="password"
           className="form-input"
           id="password"
+          autoComplete="current-password"
+          aria-required="true"
+          aria-describedby={error ? "login-error" : undefined}
           value={login.password}
           onChange={handleChange}
+          disabled={isLoading}
         />
       </label>
 
-      <button type="submit" className="btn">
-        Login
+      <button type="submit" className="btn" disabled={isLoading}>
+        {isLoading ? "Authenticating..." : "Login"}
       </button>
 
-      <button type="button" className="btn" onClick={bypass}>
-        Bypass
+      <button
+        type="button"
+        className="btn"
+        onClick={bypass}
+        disabled={isLoading}
+      >
+        Continue as Guest
       </button>
     </form>
   );

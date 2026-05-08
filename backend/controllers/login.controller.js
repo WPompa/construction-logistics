@@ -7,9 +7,9 @@ const login = asyncWrapper(async (req, res, next) => {
   const sequelize = req.sequelize;
 
   if (!username) {
-    throw new AppError("Please Provide Username", 400);
+    throw new AppError("Please Provide Username.", 400);
   } else if (!password) {
-    throw new AppError("Please Provide Password", 400);
+    throw new AppError("Please Provide Password.", 400);
   }
 
   const result = await service(sequelize, username, password);
