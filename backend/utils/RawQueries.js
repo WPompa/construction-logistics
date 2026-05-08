@@ -5,16 +5,16 @@ const tables = {
         FROM employees AS emp1
         JOIN employees AS emp2
         ON emp2.supervisorid = emp1.empid
-        JOIN Jobsites
-        ON emp1.JobsiteID = Jobsites.JobsiteID
+        JOIN jobsites
+        ON emp1.JobsiteID = jobsites.JobsiteID
         ORDER BY emp1.empid ASC
         ) AS Result;`,
     query: `SELECT DISTINCT emp1.empid AS EmpID, CONCAT(emp1.fname, ' ', emp1.lname) AS Name, emp1.title AS Title, emp1.JobsiteID AS JobsiteID, JobsiteName
         FROM employees AS emp1
         JOIN employees AS emp2
         ON emp2.supervisorid = emp1.empid
-        JOIN Jobsites
-        ON emp1.JobsiteID = Jobsites.JobsiteID
+        JOIN jobsites
+        ON emp1.JobsiteID = jobsites.JobsiteID
         ORDER BY emp1.empid ASC
         LIMIT :limit OFFSET :offset;`,
   },
@@ -81,8 +81,8 @@ const tables = {
           FROM employees as emp1
           LEFT JOIN employees as emp2
           ON emp1.supervisorid = emp2.empid
-          LEFT JOIN Jobsites
-          ON emp1.JobsiteID = Jobsites.JobsiteID
+          LEFT JOIN jobsites
+          ON emp1.JobsiteID = jobsites.JobsiteID
           ORDER BY emp1.empid ASC
         ) AS Result;`,
     query: `SELECT DISTINCT emp1.empid AS EmpID, emp1.fname AS Fname, emp1.lname AS Lname, emp1.title AS Title,
@@ -90,8 +90,8 @@ const tables = {
         FROM employees as emp1
         LEFT JOIN employees as emp2
         ON emp1.supervisorid = emp2.empid
-        LEFT JOIN Jobsites
-        ON emp1.JobsiteID = Jobsites.JobsiteID
+        LEFT JOIN jobsites
+        ON emp1.JobsiteID = jobsites.JobsiteID
         ORDER BY emp1.empid ASC
         LIMIT :limit OFFSET :offset;`,
   },
@@ -116,14 +116,14 @@ const tables = {
   storage_areas: {
     count: `SELECT COUNT(*) AS Count
         FROM (
-          SELECT SA.StorageAreaID, SA.Location, Jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
+          SELECT SA.StorageAreaID, SA.Location, jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
           FROM Storage_Areas AS SA
-          LEFT JOIN Jobsites ON SA.JobsiteID = Jobsites.JobsiteID
+          LEFT JOIN jobsites ON SA.JobsiteID = jobsites.JobsiteID
           ORDER BY SA.JobsiteID ASC
         ) AS Result;`,
-    query: `SELECT SA.StorageAreaID, SA.Location, Jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
+    query: `SELECT SA.StorageAreaID, SA.Location, jobsites.JobsiteName, SA.JobsiteID, SA.Length, SA.Width, SA.Height, SA.TotalStored, SA.is_Container
         FROM Storage_Areas AS SA
-        LEFT JOIN Jobsites ON SA.JobsiteID = Jobsites.JobsiteID
+        LEFT JOIN jobsites ON SA.JobsiteID = jobsites.JobsiteID
         ORDER BY SA.JobsiteID ASC
         LIMIT :limit OFFSET :offset;`,
   },
@@ -135,14 +135,14 @@ const tables = {
           FROM Stored_In SI
           JOIN Storage_Areas SA ON SI.StorageAreaID = SA.StorageAreaID
           JOIN Materials M ON SI.MaterialID = M.MaterialID
-          JOIN Jobsites J ON SA.JobsiteID = J.JobsiteID
+          JOIN jobsites J ON SA.JobsiteID = J.JobsiteID
           ORDER BY SA.JobsiteID ASC
         ) AS Result;`,
     query: `SELECT SA.StorageAreaID, SA.Location, J.JobsiteID, J.JobsiteName, M.MaterialID, M.Name, M.MaterialType, SI.Amount
          FROM Stored_In SI
          JOIN Storage_Areas SA ON SI.StorageAreaID = SA.StorageAreaID
          JOIN Materials M ON SI.MaterialID = M.MaterialID
-         JOIN Jobsites J ON SA.JobsiteID = J.JobsiteID
+         JOIN jobsites J ON SA.JobsiteID = J.JobsiteID
          ORDER BY SA.JobsiteID ASC
          LIMIT :limit OFFSET :offset;`,
   },
